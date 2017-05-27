@@ -1,0 +1,42 @@
+#-runfw: org.apache.felix.framework;version=5
+#-runee: JavaSE-1.7
+
+-runprovidedcapabilities: ${native_capability}
+
+-resolve.effective: active;skip:="osgi.service"
+
+-runbundles: \
+	org.apache.felix.gogo.command;version='[0.16.0,0.16.1)',\
+	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
+	org.apache.felix.gogo.runtime;version='[1.0.0,1.0.1)',\
+	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
+	org.apache.felix.log;version='[1.0.1,1.0.2)',\
+	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
+	org.apache.felix.scr;version='[2.0.2,2.0.3)',\
+	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
+	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
+	sho.cmis.drive;version=snapshot,\
+	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\
+	com.fasterxml.jackson.core.jackson-core;version='[2.8.1,2.8.2)',\
+	com.fasterxml.jackson.core.jackson-databind;version='[2.8.1,2.8.2)',\
+	ch.qos.logback.core;version='[1.2.3,1.2.4)',\
+	log4j;version='[1.2.17,1.2.18)',\
+	slf4j.log4j12;version='[1.6.1,1.6.2)',\
+	io.netty.buffer;version='[4.0.40,4.0.41)',\
+	io.netty.codec;version='[4.0.40,4.0.41)',\
+	io.netty.common;version='[4.0.40,4.0.41)',\
+	io.netty.transport;version='[4.0.40,4.0.41)',\
+	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
+	slf4j.api;version='[1.7.25,1.7.26)',\
+	liferay-nativity;version=snapshot
+
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.drive)',\
+	osgi.identity;filter:='(osgi.identity=ch.qos.logback.core)',\
+	osgi.identity;filter:='(&(osgi.identity=ch.qos.logback.classic)(version>=1.2.3))'
+-runee: JavaSE-1.8
+-runfw: org.eclipse.osgi
+-runblacklist: osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)'
+-runproperties: logbackConfigFile=config/logback.xml

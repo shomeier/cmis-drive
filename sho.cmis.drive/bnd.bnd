@@ -1,0 +1,13 @@
+#	org.ops4j.pax.logging.pax-logging-api;version=latest;repo="Central"
+-buildpath: \
+	osgi.annotation; version=6.0.1,\
+	osgi.core; version=6.0,\
+	osgi.cmpn; version=6.0,\
+	slf4j.api; version=1.7.5,\
+	liferay-nativity; version=latest
+
+
+-testpath: \
+	${junit}
+
+Private-Package: sho.cmis.drive

@@ -1,0 +1,5 @@
+#
+# This file is left open for you to define your macros
+#
+
+Bundle-Version: 0.1.0.${tstamp}
