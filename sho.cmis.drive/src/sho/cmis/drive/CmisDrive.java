@@ -2,6 +2,7 @@ package sho.cmis.drive;
 
 import java.nio.file.FileSystem;
 import java.nio.file.Paths;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,12 @@ public class CmisDrive
 
 	private void javafs() throws Exception
 	{
+
+		for (FileSystemProvider fsr : FileSystemProvider.installedProviders())
+		{
+			LOG.info("FSP: " + fsr.getScheme());
+		}
+
 		FileSystem fs = null;
 		Map<String, String> options = new HashMap<>();
 		// options.put("fsname", fs.getClass().getSimpleName() + "@" + System.currentTimeMillis());

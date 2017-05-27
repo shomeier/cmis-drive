@@ -2,16 +2,12 @@
 -buildpath: \
 	osgi.annotation; version=6.0.1,\
 	osgi.core; version=6.0,\
-	osgi.cmpn; version=6.0,\
-	slf4j.api; version=1.7.5,\
-	javafs; version=latest,\
-	liferay-nativity; version=latest
+	osgi.cmpn; version=6.0
 
 -testpath: \
 	${junit}
 
 Private-Package: \
-	sho.cmis.drive,\
 	sho.cmis.drive.fs
 
 -includeresource: META-INF/services/java.nio.file.spi.FileSystemProvider=services/java.nio.file.spi.FileSystemProvider
@@ -20,4 +16,4 @@ Private-Package: \
 # Bundle-ActivationPolicy: lazy
 # We either need to set this bundle as Fragment-Bundle of the System-Framework-Bundle
 # or we need to set it on the system classpath (bnd: '-runpath') at the bnd run configuration
-# Fragment-Host: system.bundle; extension:="framework"
+Fragment-Host: system.bundle; extension:="framework"
