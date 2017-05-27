@@ -15,9 +15,9 @@ testsrc:  src/test/java
 
 Private-Package: \
 	co.paralleluniverse.filesystem,\
-	co.paralleluniverse.javafs,\
+	co.paralleluniverse.fuse,\
 	jnr.ffi.provider.jffi;-split-package:=merge-first
-Export-Package: co.paralleluniverse.fuse
+Export-Package: co.paralleluniverse.javafs
 
 Conditional-Package: \
 	com.kenai.jffi, \

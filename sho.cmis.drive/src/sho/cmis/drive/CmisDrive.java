@@ -1,7 +1,11 @@
 package sho.cmis.drive;
 
+import java.nio.file.FileSystem;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Activate;
@@ -24,6 +28,8 @@ import com.liferay.nativity.modules.fileicon.FileIconControl;
 import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
+import co.paralleluniverse.javafs.JavaFS;
+
 @Component(immediate = true)
 public class CmisDrive
 {
@@ -31,26 +37,47 @@ public class CmisDrive
 
 	private static final String COMPONENT_NAME = "sho.cmis.drive";
 
+	private static final String OVERLAY_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
+
+	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
+
+	private static final boolean READONLY = true;
+
 	@Activate
 	public void activate()
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
 		try
 		{
-			Thread.sleep(1000);
+			javafs();
 		}
-		catch (InterruptedException e)
+		catch (Exception ioe)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Error in javafs: ", ioe);
+			ioe.printStackTrace();
 		}
 		nativity();
 		LOG.debug("Activated component: {}", COMPONENT_NAME);
 	}
 
+	private void javafs() throws Exception
+	{
+		FileSystem fs = null;
+		Map<String, String> options = new HashMap<>();
+		// options.put("fsname", fs.getClass().getSimpleName() + "@" + System.currentTimeMillis());
+		options.put("fsname", "OMN");
+		options.put("volname", "Online Media Net");
+		options.put("volicon", OVERLAY_ICON);
+
+		LOG.info("Mounting FileSystem ...");
+		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, true, options);
+		LOG.info("... mounted FileSystem!");
+	}
+
 	private void nativity()
 	{
-		final String testFolder = "/Volumes/Shorty_JetDrive_1/tmp";
+		// final String testFolder = "/Volumes/Shorty_JetDrive_1/tmp";
+		final String testFolder = MOUNT_POINT;
 
 		try
 		{
@@ -89,7 +116,7 @@ public class CmisDrive
 
 					fileIconControl.enableFileIcons();
 
-					String testFilePath = testFolder + "/squirrel.zip";
+					// String testFilePath = testFolder + "/squirrel.zip";
 
 					// if (OSDetector.isWindows())
 					// {
@@ -101,7 +128,7 @@ public class CmisDrive
 					// Used by Mac Finder Sync. This unique id can be set at runtime.
 					// testIconId = 1;
 
-					fileIconControl.registerIconWithId(testFolder + "/omnIcon.icns", "omn", Integer.toString(testIconId));
+					fileIconControl.registerIconWithId(OVERLAY_ICON, "omn", Integer.toString(testIconId));
 					// }
 					// else if (false)
 					// {
@@ -160,7 +187,7 @@ public class CmisDrive
 
 			fileIconControl.enableFileIcons();
 
-			String testFilePath = testFolder + "/squirrel.zip";
+			// String testFilePath = testFolder + "/squirrel.zip";
 
 			// if (OSDetector.isWindows())
 			// {
@@ -172,7 +199,7 @@ public class CmisDrive
 			// Used by Mac Finder Sync. This unique id can be set at runtime.
 			// testIconId = 1;
 
-			fileIconControl.registerIconWithId(testFolder + "/omnIcon.icns", "omn", Integer.toString(testIconId));
+			fileIconControl.registerIconWithId(OVERLAY_ICON, "omn", Integer.toString(testIconId));
 			// }
 			// else if (false)
 			// {
@@ -207,7 +234,7 @@ public class CmisDrive
 					};
 
 					contextMenuItem.setContextMenuAction(contextMenuAction);
-					contextMenuItem.setIconPath(testFolder + "/omnIcon.icns");
+					contextMenuItem.setIconPath(OVERLAY_ICON);
 
 					List<ContextMenuItem> contextMenuItems = new ArrayList<ContextMenuItem>()
 					{

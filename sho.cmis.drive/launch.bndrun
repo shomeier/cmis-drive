@@ -28,15 +28,19 @@
 	io.netty.transport;version='[4.0.40,4.0.41)',\
 	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
 	slf4j.api;version='[1.7.25,1.7.26)',\
-	liferay-nativity;version=snapshot
+	liferay-nativity;version=snapshot,\
+	javafs;version=snapshot,\
+	org.objectweb.asm;version='[5.0.3,5.0.4)'
 
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.drive)',\
 	osgi.identity;filter:='(osgi.identity=ch.qos.logback.core)',\
-	osgi.identity;filter:='(&(osgi.identity=ch.qos.logback.classic)(version>=1.2.3))'
+	osgi.identity;filter:='(&(osgi.identity=ch.qos.logback.classic)(version>=1.2.3))',\
+	osgi.identity;filter:='(osgi.identity=javafs)'
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi
+-runsystempackages.objenesis: sun.misc
 -runblacklist: osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)'
 -runproperties: logbackConfigFile=config/logback.xml
