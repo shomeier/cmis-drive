@@ -1,6 +1,6 @@
 -buildpath: \
-	com.github.jnr:jffi; version=latest; repo="Central",\
-	com.github.jnr:jnr-ffi; version=latest; repo="Central",\
+	com.github.jnr.jffi; version=latest; repo="Central",\
+	com.github.jnr.ffi; version=latest; repo="Central",\
 	com.github.jnr.posix; version=latest; repo="Central",\
 	com.github.jnr:jnr-constants; version=latest; repo="Central",\
 	com.github.jnr:jnr-x86asm; version=latest; repo="Central"
@@ -13,15 +13,21 @@ Bundle-SymbolicName: javafs
 src: src/main/java
 testsrc:  src/test/java
 
+-includeresource: jni=jni
+
 Private-Package: \
 	co.paralleluniverse.filesystem,\
 	co.paralleluniverse.fuse,\
-	jnr.ffi.provider.jffi;-split-package:=merge-first
+	com.kenai.jffi.internal,\
+	jnr.ffi.provider.jffi.platform.x86_64.darwin,\
+	jnr.ffi.util.ref.internal
 Export-Package: \
-	co.paralleluniverse.javafs, \
-	jnr.ffi.provider.jffi
-Import-Package: jnr.ffi.provider.jffi
+	co.paralleluniverse.javafs,\
+	jnr.ffi.provider.jffi;-split-package:=merge-last
+Import-Package: \
+	org.objectweb.asm, \
+	jnr.ffi.provider.jffi;-split-package:=merge-last
 
 Conditional-Package: \
-	com.kenai.jffi, \
+	com.kenai.jffi.*, \
 	jnr.*
