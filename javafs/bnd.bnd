@@ -1,0 +1,24 @@
+-buildpath: \
+	com.github.jnr:jffi; version=latest; repo="Central",\
+	com.github.jnr:jnr-ffi; version=latest; repo="Central",\
+	com.github.jnr.posix; version=latest; repo="Central",\
+	com.github.jnr:jnr-constants; version=latest; repo="Central",\
+	com.github.jnr:jnr-x86asm; version=latest; repo="Central"
+
+
+Bundle-Version: 0.1.0
+Bundle-SymbolicName: javafs
+-dsannotations:
+
+src: src/main/java
+testsrc:  src/test/java
+
+Private-Package: \
+	co.paralleluniverse.filesystem,\
+	co.paralleluniverse.javafs,\
+	jnr.ffi.provider.jffi;-split-package:=merge-first
+Export-Package: co.paralleluniverse.fuse
+
+Conditional-Package: \
+	com.kenai.jffi, \
+	jnr.*

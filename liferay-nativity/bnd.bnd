@@ -2,7 +2,7 @@ Bundle-Version: 1.0.6
 Bundle-SymbolicName: liferay-nativity
 -dsannotations:
 
--sourcepath: java/src
+src: java/src
 Include-Resource: \
 	resources=java/src/resources,\
 	java/src/nativity-log4j.xml
