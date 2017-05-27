@@ -1,6 +1,7 @@
-package sho.cmis.drive.fs;
+package sho.cmis.drive.fs.internal;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
@@ -12,17 +13,26 @@ import java.util.Set;
 
 public class CmisFileSystem extends FileSystem
 {
+	private final CmisFileSystemProvider provider;
+	private final URI uri;
+
+	CmisFileSystem(CmisFileSystemProvider provider, URI uri)
+	{
+		this.provider = provider;
+		this.uri = uri;
+	}
 
 	@Override
 	public FileSystemProvider provider()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("IN FS provider!!!");
+		return this.provider;
 	}
 
 	@Override
 	public void close() throws IOException
 	{
+		System.out.println("IN FS close!!!");
 		// TODO Auto-generated method stub
 
 	}
@@ -31,6 +41,7 @@ public class CmisFileSystem extends FileSystem
 	public boolean isOpen()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS isOpen!!!");
 		return false;
 	}
 
@@ -38,20 +49,22 @@ public class CmisFileSystem extends FileSystem
 	public boolean isReadOnly()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS isReadOnly!!!");
 		return false;
 	}
 
 	@Override
 	public String getSeparator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("IN FS getSeparator!!!");
+		return "TEES";
 	}
 
 	@Override
 	public Iterable<Path> getRootDirectories()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS getRootDirectories!!!");
 		return null;
 	}
 
@@ -59,6 +72,7 @@ public class CmisFileSystem extends FileSystem
 	public Iterable<FileStore> getFileStores()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS getFileStores!!!");
 		return null;
 	}
 
@@ -66,6 +80,7 @@ public class CmisFileSystem extends FileSystem
 	public Set<String> supportedFileAttributeViews()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS supportedFileAttributeViews!!!");
 		return null;
 	}
 
@@ -73,12 +88,14 @@ public class CmisFileSystem extends FileSystem
 	public Path getPath(String first, String... more)
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS getPath!!!");
 		return null;
 	}
 
 	@Override
 	public PathMatcher getPathMatcher(String syntaxAndPattern)
 	{
+		System.out.println("IN FS getPathMatcher!!!");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -87,6 +104,7 @@ public class CmisFileSystem extends FileSystem
 	public UserPrincipalLookupService getUserPrincipalLookupService()
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS getUserPrincipalLookupService!!!");
 		return null;
 	}
 
@@ -94,6 +112,7 @@ public class CmisFileSystem extends FileSystem
 	public WatchService newWatchService() throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FS newWatchService!!!");
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package sho.cmis.drive.fs;
+package sho.cmis.drive.fs.internal;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +21,6 @@ import java.util.Set;
 
 public class CmisFileSystemProvider extends FileSystemProvider
 {
-
 	@Override
 	public String getScheme()
 	{
@@ -32,20 +31,22 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
 		// TODO Auto-generated method stub
-		return null;
+		System.out.println("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
+		return new CmisFileSystem(this, uri);
 	}
 
 	@Override
 	public FileSystem getFileSystem(URI uri)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("IN FSP getFileSystem(URI uri)!!!");
+		return new CmisFileSystem(this, uri);
 	}
 
 	@Override
 	public Path getPath(URI uri)
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP getPath!!!");
 		return null;
 	}
 
@@ -53,6 +54,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
 		throws IOException
 	{
+		System.out.println("IN FSP newByteChannel!!!");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -61,6 +63,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP newDirectoryStream!!!");
 		return null;
 	}
 
@@ -68,6 +71,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP createDirectory!!!");
 
 	}
 
@@ -75,6 +79,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void delete(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP delete!!!");
 
 	}
 
@@ -82,6 +87,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void copy(Path source, Path target, CopyOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP delete!!!");
 
 	}
 
@@ -89,6 +95,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void move(Path source, Path target, CopyOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP move!!!");
 
 	}
 
@@ -96,6 +103,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public boolean isSameFile(Path path, Path path2) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP isSameFile!!!");
 		return false;
 	}
 
@@ -103,6 +111,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public boolean isHidden(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP isHidden!!!");
 		return false;
 	}
 
@@ -110,6 +119,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public FileStore getFileStore(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP getFileStore!!!");
 		return null;
 	}
 
@@ -117,6 +127,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void checkAccess(Path path, AccessMode... modes) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP checkAccess!!!");
 
 	}
 
@@ -124,6 +135,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <V extends FileAttributeView> V getFileAttributeView(Path path, Class<V> type, LinkOption... options)
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP getFileAttributeView!!!");
 		return null;
 	}
 
@@ -131,6 +143,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP readAttributes1!!!");
 		return null;
 	}
 
@@ -138,12 +151,14 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
+		System.out.println("IN FSP readAttributes2!!!");
 		return null;
 	}
 
 	@Override
 	public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException
 	{
+		System.out.println("IN FSP setAttribute!!!");
 		// TODO Auto-generated method stub
 
 	}

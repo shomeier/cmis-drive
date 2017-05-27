@@ -17,7 +17,10 @@ Private-Package: \
 	co.paralleluniverse.filesystem,\
 	co.paralleluniverse.fuse,\
 	jnr.ffi.provider.jffi;-split-package:=merge-first
-Export-Package: co.paralleluniverse.javafs
+Export-Package: \
+	co.paralleluniverse.javafs, \
+	jnr.ffi.provider.jffi
+Import-Package: jnr.ffi.provider.jffi
 
 Conditional-Package: \
 	com.kenai.jffi, \

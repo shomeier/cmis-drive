@@ -5,7 +5,8 @@
 	osgi.cmpn; version=6.0,\
 	slf4j.api; version=1.7.5,\
 	javafs; version=latest,\
-	liferay-nativity; version=latest
+	liferay-nativity; version=latest,\
+	sho.cmis.fs; version=latest
 
 -testpath: \
 	${junit}

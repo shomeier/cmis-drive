@@ -7,8 +7,8 @@
 -testpath: \
 	${junit}
 
-Private-Package: \
-	sho.cmis.drive.fs
+Export-Package: sho.cmis.drive.fs
+Private-Package: sho.cmis.drive.fs.internal
 
 -includeresource: META-INF/services/java.nio.file.spi.FileSystemProvider=services/java.nio.file.spi.FileSystemProvider
 
