@@ -86,6 +86,7 @@ public class CmisDrive
 						try
 						{
 							javafs();
+							nativity();
 						}
 						catch (Exception e)
 						{
