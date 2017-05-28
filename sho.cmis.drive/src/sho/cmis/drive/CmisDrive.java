@@ -52,6 +52,8 @@ public class CmisDrive
 	private static final String ALFRESCO_URL =
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
 
+	private static final String LOCAL_URL = "http://localhost:8083/cmisBrowser";
+
 	private static final String COMPONENT_NAME = "sho.cmis.drive";
 
 	private static final String OVERLAY_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
@@ -59,7 +61,7 @@ public class CmisDrive
 	// | private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/mount";
 	// private static final String CMIS_MOUNT_POINT_URI = "cmis:///Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
-	private static final String CMIS_MOUNT_POINT_URI = "cmis:///Volumes/Shorty_JetDrive_1/mount";
+	private static final String CMIS_URI = "cmis:///";
 
 	private static final boolean READONLY = true;
 
@@ -112,9 +114,16 @@ public class CmisDrive
 		}
 
 		Map<String, String> config = new HashMap<>();
-		config.put(CmisConfig.URL, ALFRESCO_URL);
+		// config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
+		config.put(CmisConfig.BROWSER_URL, LOCAL_URL);
+		config.put(CmisConfig.BINDING_TYPE, "browser");
+		// config.put(CmisConfig.USER, "admin");
+		// config.put(CmisConfig.PASSWORD, "admin");
+		config.put(CmisConfig.USER, "test");
+		config.put(CmisConfig.PASSWORD, "test");
+		config.put(CmisConfig.REPOSITORY_ID, "default");
 
-		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_MOUNT_POINT_URI), config);
+		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), config);
 		// FileSystem fs = Jimfs.newFileSystem();
 		LOG.info("FS separator: " + fs.getSeparator());
 

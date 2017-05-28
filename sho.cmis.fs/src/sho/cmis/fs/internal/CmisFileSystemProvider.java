@@ -9,19 +9,20 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.osgi.framework.Bundle;
@@ -48,6 +49,22 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		return "cmis";
 	}
 
+	protected String uriToPath(URI uri)
+	{
+		String scheme = uri.getScheme();
+		if (( scheme == null ) || !scheme.equalsIgnoreCase(getScheme()))
+		{
+			throw new IllegalArgumentException("URI scheme is not '" + getScheme() + "'");
+		}
+		// only support legacy JAR URL syntax jar:{uri}!/{entry} for now
+		String spec = uri.getRawSchemeSpecificPart();
+		// int sep = spec.indexOf("!/");
+		// if (sep != -1)
+		// spec = spec.substring(0, sep);
+		return spec;
+		// return Paths.get(new URI(spec)).toAbsolutePath();
+	}
+
 	@Override
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
@@ -59,7 +76,12 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
 		serviceTracker.open();
 		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
-		Session session = sessionFactory.createSession(null);
+		// Session session = sessionFactory.createSession((Map<String, String>) env);
+		List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
+		Session session = repositories.get(1).createSession();
+		Folder rootFolder = session.getRootFolder();
+
+		// CmisObject objectByPath = session.getObjectByPath("/");
 
 		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, session);
 		this.filesystems.put(uri, cmisFs);
@@ -79,8 +101,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP getPath!!!");
-		return Paths.get(uri);
-		// return null;
+		// return Paths.get(uri);
+		return null;
 	}
 
 	@Override
@@ -97,7 +119,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP newDirectoryStream!!!");
-		return null;
+		return new CmisDirectoryStream((CmisPath) dir, filter);
 	}
 
 	@Override
@@ -176,8 +198,10 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP readAttributes1 with path: " + path);
-		return Files.readAttributes(path, type, options);
+		System.out.println("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
+		System.out.println("222 N FSP readAttributes1 with path: " + path);
+		return (A) new CmisBasicFileAttributes((CmisPath) path);
+		// return Files.readAttributes(path, type, options);
 		// return null;
 	}
 

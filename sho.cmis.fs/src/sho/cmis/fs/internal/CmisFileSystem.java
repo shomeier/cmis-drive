@@ -6,10 +6,10 @@ import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -71,7 +71,7 @@ public class CmisFileSystem extends FileSystem
 	public String getSeparator()
 	{
 		System.out.println("IN FS getSeparator!!!");
-		return "TEES";
+		return "/";
 	}
 
 	@Override
@@ -79,7 +79,10 @@ public class CmisFileSystem extends FileSystem
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FS getRootDirectories!!!");
-		return null;
+
+		ArrayList<Path> pathArr = new ArrayList<>();
+		pathArr.add(getRootPath());
+		return pathArr;
 	}
 
 	@Override
@@ -105,7 +108,11 @@ public class CmisFileSystem extends FileSystem
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FS getPath with first: " + first);
-		return Paths.get(first);
+
+		if (first.equals("/"))
+			return getRootPath();
+		else
+			return new CmisPath(this, session.getObjectByPath(first));
 	}
 
 	@Override
@@ -130,6 +137,11 @@ public class CmisFileSystem extends FileSystem
 		// TODO Auto-generated method stub
 		System.out.println("IN FS newWatchService!!!");
 		return null;
+	}
+
+	private CmisPath getRootPath()
+	{
+		return new CmisPath(this, session.getRootFolder());
 	}
 
 }
