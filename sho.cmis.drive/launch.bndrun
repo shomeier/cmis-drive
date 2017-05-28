@@ -5,71 +5,10 @@
 
 -resolve.effective: active;skip:="osgi.service"
 
--runbundles: \
-	ch.qos.logback.core;version='[1.2.3,1.2.4)',\
-	log4j;version='[1.2.17,1.2.18)',\
-	ch.qos.logback.classic;version='[1.2.3,1.2.4)',\
-	org.apache.felix.log;version='[1.0.1,1.0.2)',\
-	org.apache.felix.gogo.command;version='[0.16.0,0.16.1)',\
-	org.apache.felix.gogo.runtime;version='[0.16.2,0.16.3)',\
-	org.apache.felix.gogo.runtime;version='[1.0.0,1.0.1)',\
-	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
-	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
-	org.apache.felix.scr;version='[2.0.2,2.0.3)',\
-	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
-	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
-	org.objectweb.asm.all.debug;version='[5.2.0,5.2.1)',\
-	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\
-	com.fasterxml.jackson.core.jackson-core;version='[2.8.1,2.8.2)',\
-	com.fasterxml.jackson.core.jackson-databind;version='[2.8.1,2.8.2)',\
-	com.google.guava;version='[16.0.0,16.0.1)',\
-	com.google.jimfs;version='[1.0.0,1.0.1)',\
-	de.apollon.cmis.client.chemistry.opencmis.wrap;version='[1.0.0,1.0.1)',\
-	io.netty.buffer;version='[4.0.40,4.0.41)',\
-	io.netty.codec;version='[4.0.40,4.0.41)',\
-	io.netty.common;version='[4.0.40,4.0.41)',\
-	io.netty.transport;version='[4.0.40,4.0.41)',\
-	javafs;version=snapshot,\
-	liferay-nativity;version=snapshot,\
-	org.apache.aries.spifly.dynamic.bundle;version='[1.0.8,1.0.9)',\
-	org.apache.aries.spifly:org.apache.aries.spifly.core-internal;version='[1.0.8,1.0.9)',\
-	org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal;version='[1.0.8,1.0.9)',\
-	org.apache.aries.util;version='[1.1.1,1.1.2)',\
-	sho.cmis.drive;version=snapshot,\
-	sho.cmis.fs;version=snapshot,\
-	slf4j.api;version='[1.7.25,1.7.26)',\
-	slf4j.log4j12;version='[1.6.1,1.6.2)',\
-	stax2-api;version='[4.0.0,4.0.1)',\
-	woodstox-core-asl;version='[4.4.1,4.4.2)'
-	org.apache.aries.spifly:org.apache.aries.spifly.core-internal;version='[1.0.8,1.0.9)',\
-	org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal;version='[1.0.8,1.0.9)',\
-	org.apache.aries.spifly.dynamic.bundle;version='[1.0.8,1.0.9)',\
-	org.apache.aries.util;version='[1.0.0,1.0.1)',\
-	sho.cmis.drive;version=snapshot,\
-	slf4j.api;version='[1.7.25,1.7.26)',\
-	sho.cmis.fs;version=snapshot,\
-	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\
-	com.fasterxml.jackson.core.jackson-core;version='[2.8.1,2.8.2)',\
-	com.fasterxml.jackson.core.jackson-databind;version='[2.8.1,2.8.2)',\
-	io.netty.buffer;version='[4.0.40,4.0.41)',\
-	io.netty.codec;version='[4.0.40,4.0.41)',\
-	io.netty.common;version='[4.0.40,4.0.41)',\
-	io.netty.transport;version='[4.0.40,4.0.41)',\
-	liferay-nativity;version=snapshot,\
-	slf4j.log4j12;version='[1.6.1,1.6.2)',\
-	com.google.jimfs;version='[1.0.0,1.0.1)',\
-	javafs;version=snapshot,\
-	com.google.guava;version='[16.0.0,16.0.1)',\
-	de.apollon.cmis.client.chemistry.opencmis.wrap;version='[1.0.0,1.0.1)',\
-	stax2-api;version='[4.0.0,4.0.1)',\
-	woodstox-core-asl;version='[4.4.1,4.4.2)',\
-
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.drive)',\
-	osgi.identity;filter:='(osgi.identity=ch.qos.logback.core)',\
-	osgi.identity;filter:='(&(osgi.identity=ch.qos.logback.classic)(version>=1.2.3))',\
 	osgi.identity;filter:='(osgi.identity=javafs)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
 	osgi.identity;filter:='(osgi.identity=com.google.jimfs)',\
@@ -77,9 +16,50 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal)',\
 	osgi.identity;filter:='(&(osgi.identity=org.objectweb.asm.all.debug)(version>=5.2.0))',\
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly.dynamic.bundle)',\
-	osgi.identity;filter:='(&(osgi.identity=org.apache.aries.util)(version>=1.1.1))'
+	osgi.identity;filter:='(&(osgi.identity=org.apache.aries.util)(version>=1.1.1))',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
+	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)'
 -runee: JavaSE-1.8
--runfw: org.eclipse.osgi
+-runfw: org.eclipse.osgi;version='[3.10.100.v20150529-1857,3.10.100.v20150529-1857]'
 -runsystempackages.objenesis: sun.misc
--runblacklist: osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)'
--runproperties: logbackConfigFile=config/logback.xml
+-runproperties: \
+	logbackConfigFile=config/logback.xml,\
+	felix.fileinstall.noInitialDelay=true,\
+	felix.fileinstall.poll=100,\
+	felix.fileinstall.log.level=3,\
+	felix.fileinstall.dir=config
+
+-runbundles: \
+	org.ops4j.pax.logging.pax-logging-api;version='[1.10.0,1.10.1)',\
+	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
+	org.apache.aries.spifly.dynamic.bundle;version='[1.0.8,1.0.9)',\
+	org.apache.aries.spifly:org.apache.aries.spifly.core-internal;version='[1.0.8,1.0.9)',\
+	org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal;version='[1.0.8,1.0.9)',\
+	org.apache.aries.util;version='[1.1.1,1.1.2)',\
+	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\
+	com.fasterxml.jackson.core.jackson-core;version='[2.8.1,2.8.2)',\
+	com.fasterxml.jackson.core.jackson-databind;version='[2.8.1,2.8.2)',\
+	com.google.guava;version='[16.0.0,16.0.1)',\
+	com.google.jimfs;version='[1.0.0,1.0.1)',\
+	de.apollon.cmis.client.chemistry.opencmis.wrap;version='[1.0.0,1.0.1)',\
+	io.netty.buffer;version='[4.0.40,4.0.41)',\
+	io.netty.codec;version='[4.0.40,4.0.41)',\
+	io.netty.common;version='[4.0.40,4.0.41)',\
+	io.netty.transport;version='[4.0.40,4.0.41)',\
+	javafs;version=snapshot,\
+	liferay-nativity;version=snapshot,\
+	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
+	org.apache.felix.fileinstall;version='[3.6.0,3.6.1)',\
+	org.apache.felix.gogo.runtime;version='[1.0.0,1.0.1)',\
+	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
+	org.apache.felix.log;version='[1.0.1,1.0.2)',\
+	org.apache.felix.scr;version='[2.0.2,2.0.3)',\
+	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
+	org.objectweb.asm.all.debug;version='[5.2.0,5.2.1)',\
+	sho.cmis.drive;version=snapshot,\
+	sho.cmis.fs;version=snapshot,\
+	stax2-api;version='[4.0.0,4.0.1)',\
+	woodstox-core-asl;version='[4.4.1,4.4.2)',\
+	org.apache.felix.bundlerepository;version='[1.6.0,1.6.1)',\
+	org.apache.felix.gogo.command;version='[1.0.0,1.0.1)'
