@@ -15,4 +15,5 @@
 Private-Package: \
 	sho.cmis.drive
 
+SPI-Consumer: *
 Require-Capability: osgi.serviceloader; filter:="(osgi.serviceloader=java.nio.file.spi.FileSystemProvider)";cardinality:=multiple,osgi.extender; filter:="(osgi.extender=osgi.serviceloader.processor)"

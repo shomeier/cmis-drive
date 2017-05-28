@@ -127,6 +127,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.aries.spifly</groupId>
+			<artifactId>org.apache.aries.spifly.static.bundle</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.aries.spifly</groupId>
 			<artifactId>spifly</artifactId>
 			<version>1.0.8</version>
 		</dependency>
