@@ -1,9 +1,9 @@
 -buildpath: \
-	com.github.jnr.jffi; version=latest; repo="Central",\
-	com.github.jnr.ffi; version=latest; repo="Central",\
-	com.github.jnr.posix; version=latest; repo="Central",\
-	com.github.jnr:jnr-constants; version=latest; repo="Central",\
-	com.github.jnr:jnr-x86asm; version=latest; repo="Central"
+	com.github.jnr.jffi; version=latest; repo="JNR",\
+	com.github.jnr.ffi; version=latest; repo="JNR",\
+	com.github.jnr.posix; version=latest; repo="JNR",\
+	com.github.jnr:jnr-constants; version=latest; repo="JNR",\
+	com.github.jnr:jnr-x86asm; version=latest; repo="JNR"
 
 
 Bundle-Version: 0.1.0
