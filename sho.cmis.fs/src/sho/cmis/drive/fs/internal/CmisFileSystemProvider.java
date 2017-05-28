@@ -9,9 +9,11 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
+import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
@@ -47,7 +49,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP getPath!!!");
-		return null;
+		return Paths.get(uri);
+		// return null;
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void delete(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP delete!!!");
+		System.out.println("IN FSP Odelete!!!");
 
 	}
 
@@ -144,7 +147,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP readAttributes1!!!");
-		return null;
+		return Files.readAttributes(path, type);
+		// return null;
 	}
 
 	@Override

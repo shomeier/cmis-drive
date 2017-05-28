@@ -9,6 +9,8 @@ import java.nio.file.PathMatcher;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class CmisFileSystem extends FileSystem
@@ -73,7 +75,9 @@ public class CmisFileSystem extends FileSystem
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FS getFileStores!!!");
-		return null;
+		List<FileStore> list = new LinkedList<FileStore>();
+		list.add(new CmisFileStore());
+		return list;
 	}
 
 	@Override
