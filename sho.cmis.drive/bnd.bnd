@@ -6,6 +6,7 @@
 	slf4j.api; version=1.7.5,\
 	javafs; version=latest,\
 	liferay-nativity; version=latest,\
+	com.google.jimfs; version=latest,\
 	sho.cmis.fs; version=latest
 
 -testpath: \

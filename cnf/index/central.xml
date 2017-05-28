@@ -10,6 +10,7 @@
 
 	<properties>
 		<jackson.version>2.8.1</jackson.version>
+		<objectweb.version>5.2</objectweb.version>
 	</properties>
 
 	<dependencies>
@@ -64,15 +65,32 @@
 			<version>1.7.25</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-			<version>5.0.3</version>
-		</dependency>
+		<!--
 		<dependency>
 			<groupId>com.google.jimfs</groupId>
 			<artifactId>jimfs</artifactId>
 			<version>1.0</version>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>com.google.truth</groupId>
+			<artifactId>truth</artifactId>
+			<version>0.23</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>${objectweb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-util</artifactId>
+			<version>${objectweb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-analysis</artifactId>
+			<version>${objectweb.version}</version>
 		</dependency>
 	</dependencies>
 

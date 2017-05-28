@@ -27,12 +27,12 @@ test-cases: 			${classes;NAMED;*Test}
 		name=Central; \
 		location=${build}/cache/enroute-central.xml
 
--plugin.5.JNR: \
+-plugin.5.Maven: \
 	aQute.bnd.repository.maven.provider.MavenBndRepository; \
         releaseUrl=http://mm-maven-repo01.mum.intra/artifactory/repo; \
         snapshotUrl=https://oss.sonatype.org/content/repositories/osgi/; \
-        index=${build}/index/jnr.mvn; \
-        name=JNR
+        index=${build}/index/maven.mvn; \
+        name=Maven
 
 -plugin.6.Local: \
         aQute.bnd.deployer.repository.LocalIndexedRepo; \

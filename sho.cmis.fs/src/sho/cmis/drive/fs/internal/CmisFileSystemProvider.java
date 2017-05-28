@@ -146,8 +146,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP readAttributes1!!!");
-		return Files.readAttributes(path, type);
+		System.out.println("IN FSP readAttributes1 with path: " + path);
+		return Files.readAttributes(path, type, options);
 		// return null;
 	}
 

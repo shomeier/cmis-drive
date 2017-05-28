@@ -6,6 +6,7 @@ import java.nio.file.FileStore;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
@@ -92,8 +93,8 @@ public class CmisFileSystem extends FileSystem
 	public Path getPath(String first, String... more)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS getPath!!!");
-		return null;
+		System.out.println("IN FS getPath with first: " + first);
+		return Paths.get(first);
 	}
 
 	@Override

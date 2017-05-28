@@ -1,12 +1,17 @@
 #	com.github.jnr.jffi.native; version=latest; repo="JNR"
 -buildpath: \
-	lib/jffi-1.2.15-native.jar; version=file,\
-	com.github.jnr.jffi; version=latest; repo="JNR",\
-	com.github.jnr.ffi; version=latest; repo="JNR",\
-	com.github.jnr.posix; version=latest; repo="JNR",\
-	com.github.jnr:jnr-constants; version=latest; repo="JNR",\
-	com.github.jnr:jnr-x86asm; version=latest; repo="JNR"
+	lib/jffi-1.2.15-native.jar;version=file,\
+	com.github.jnr.jffi;version=latest,\
+	com.github.jnr.ffi;version=latest,\
+	com.github.jnr.posix;version=latest,\
+	com.github.jnr:jnr-constants;version=latest,\
+	com.github.jnr:jnr-x86asm;version=latest
 
+-testpath: \
+	${junit},\
+	com.google.jimfs,\
+	com.google.guava,\
+	com.google.truth:truth
 
 Bundle-Version: 0.1.0
 Bundle-SymbolicName: javafs
