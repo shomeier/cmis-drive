@@ -19,7 +19,7 @@ public class CmisFS
 			// We pass in the ClassLoader that loaded this class to ensure that JimfsFileSystemProvider
 			// will be found, though if that ClassLoader isn't the system ClassLoader, a new
 			// JimfsFileSystemProvider will be created each time.
-			return FileSystems.newFileSystem(uri, config, null);
+			return FileSystems.newFileSystem(uri, config, CmisFS.class.getClassLoader());
 
 		}
 		catch (IOException e)

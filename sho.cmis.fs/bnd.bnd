@@ -13,9 +13,10 @@ Private-Package: sho.cmis.fs.internal
 
 -includeresource: META-INF/services/java.nio.file.spi.FileSystemProvider=services/java.nio.file.spi.FileSystemProvider
 
-SPI-Provider: *
-Require-Capability: osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"
-Provide-Capability: osgi.serviceloader; osgi.serviceloader=java.nio.file.spi.FileSystemProvider
+SPI-Provider: java.nio.file.spi.FileSystemProvider
+
+#Require-Capability: osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"
+#Provide-Capability: osgi.serviceloader; osgi.serviceloader=java.nio.file.spi.FileSystemProvider
 
 # ActivationPolicy for FileSystemProvider implementations must not be lazy
 # Bundle-ActivationPolicy: lazy

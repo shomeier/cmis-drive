@@ -15,10 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 public class CmisFileSystem extends FileSystem
 {
@@ -33,9 +31,9 @@ public class CmisFileSystem extends FileSystem
 		this.provider = provider;
 		this.uri = uri;
 		this.env = env;
-		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
-		serviceTracker.open();
-		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
+		// ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
+		// serviceTracker.open();
+		// SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
 	}
 
 	@Override

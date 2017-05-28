@@ -18,20 +18,29 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
-	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-service)'
+	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-service)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.core-internal)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal)'
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.100.v20150529-1857,3.10.100.v20150529-1857]'
 -runsystempackages.objenesis: sun.misc
+#	org.osgi.framework.bootdelegation='sun.*,sho.cmis.fs.internal'
+#	org.osgi.framework.system.packages.extra=sho.cmis.fs.internal
 -runproperties: \
 	logbackConfigFile=config/logback.xml,\
 	felix.fileinstall.noInitialDelay=true,\
 	felix.fileinstall.poll=100,\
 	felix.fileinstall.log.level=3,\
 	felix.fileinstall.dir=config
+
 -runbundles: \
 	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\
 	com.fasterxml.jackson.core.jackson-core;version='[2.8.1,2.8.2)',\
 	com.fasterxml.jackson.core.jackson-databind;version='[2.8.1,2.8.2)',\
+	org.apache.aries.spifly:org.apache.aries.spifly.core-internal;version='[1.0.8,1.0.9)',\
+	org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal;version='[1.0.8,1.0.9)',\
+	org.apache.aries.spifly.dynamic.bundle;version='[1.0.8,1.0.9)',\
+	org.apache.aries.util;version='[1.1.1,1.1.2)',\
 	com.google.guava;version='[16.0.0,16.0.1)',\
 	com.google.jimfs;version='[1.0.0,1.0.1)',\
 	de.apollon.cmis.client.chemistry.opencmis.wrap;version='[1.0.0,1.0.1)',\
@@ -41,8 +50,6 @@
 	io.netty.transport;version='[4.0.40,4.0.41)',\
 	javafs;version=snapshot,\
 	liferay-nativity;version=snapshot,\
-	org.apache.aries.spifly.dynamic.bundle;version='[1.0.8,1.0.9)',\
-	org.apache.aries.util;version='[1.1.1,1.1.2)',\
 	org.apache.felix.bundlerepository;version='[1.6.0,1.6.1)',\
 	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
 	org.apache.felix.fileinstall;version='[3.6.0,3.6.1)',\
