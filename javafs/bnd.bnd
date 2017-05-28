@@ -1,4 +1,6 @@
+#	com.github.jnr.jffi.native; version=latest; repo="JNR"
 -buildpath: \
+	lib/jffi-1.2.15-native.jar; version=file,\
 	com.github.jnr.jffi; version=latest; repo="JNR",\
 	com.github.jnr.ffi; version=latest; repo="JNR",\
 	com.github.jnr.posix; version=latest; repo="JNR",\
@@ -13,7 +15,7 @@ Bundle-SymbolicName: javafs
 src: src/main/java
 testsrc:  src/test/java
 
--includeresource: jni=jni
+-includeresource: @jffi-1.2.15-native.jar,
 
 Private-Package: \
 	co.paralleluniverse.filesystem,\
