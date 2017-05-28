@@ -18,11 +18,19 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.spi.FileSystemProvider;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class CmisFileSystemProvider extends FileSystemProvider
 {
+	private Map<URI, FileSystem> filesystems = new HashMap<>();
+
+	public CmisFileSystemProvider()
+	{
+		// default ctor
+	}
+
 	@Override
 	public String getScheme()
 	{
@@ -34,14 +42,17 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
-		return new CmisFileSystem(this, uri);
+		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, env);
+		this.filesystems.put(uri, cmisFs);
+		return cmisFs;
 	}
 
 	@Override
 	public FileSystem getFileSystem(URI uri)
 	{
 		System.out.println("IN FSP getFileSystem(URI uri)!!!");
-		return new CmisFileSystem(this, uri);
+		FileSystem cmisFs = this.filesystems.get(uri);
+		return cmisFs;
 	}
 
 	@Override

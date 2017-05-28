@@ -2,7 +2,8 @@
 -buildpath: \
 	osgi.annotation; version=6.0.1,\
 	osgi.core; version=6.0,\
-	osgi.cmpn; version=6.0
+	osgi.cmpn; version=6.0,\
+	de.apollon.cmis.client.chemistry.opencmis.wrap; version=latest
 
 -testpath: \
 	${junit}
@@ -12,8 +13,12 @@ Private-Package: sho.cmis.fs.internal
 
 -includeresource: META-INF/services/java.nio.file.spi.FileSystemProvider=services/java.nio.file.spi.FileSystemProvider
 
+SPI-Provider: *
+Require-Capability: osgi.extender; filter:="(osgi.extender=osgi.serviceloader.registrar)"
+Provide-Capability: osgi.serviceloader; osgi.serviceloader=java.nio.file.spi.FileSystemProvider
+
 # ActivationPolicy for FileSystemProvider implementations must not be lazy
 # Bundle-ActivationPolicy: lazy
 # We either need to set this bundle as Fragment-Bundle of the System-Framework-Bundle
 # or we need to set it on the system classpath (bnd: '-runpath') at the bnd run configuration
-Fragment-Host: system.bundle; extension:="framework"
+# Fragment-Host: system.bundle; extension:="framework"

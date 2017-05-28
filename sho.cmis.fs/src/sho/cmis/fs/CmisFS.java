@@ -20,6 +20,7 @@ public class CmisFS
 			// will be found, though if that ClassLoader isn't the system ClassLoader, a new
 			// JimfsFileSystemProvider will be created each time.
 			return FileSystems.newFileSystem(uri, config, null);
+
 		}
 		catch (IOException e)
 		{

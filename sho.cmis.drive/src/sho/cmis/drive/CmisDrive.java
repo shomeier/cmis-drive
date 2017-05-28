@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.osgi.service.component.annotations.Activate;
@@ -31,12 +32,16 @@ import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 import co.paralleluniverse.javafs.JavaFS;
+import sho.cmis.fs.CmisConfig;
 import sho.cmis.fs.CmisFS;
 
 @Component(immediate = true)
 public class CmisDrive
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDrive.class.getName());
+
+	private static final String ALFRESCO_URL =
+		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
 
 	private static final String COMPONENT_NAME = "sho.cmis.drive";
 
@@ -69,12 +74,21 @@ public class CmisDrive
 	private void javafs() throws Exception
 	{
 
+		ServiceLoader<FileSystemProvider> load = java.util.ServiceLoader.load(FileSystemProvider.class);
+		for (FileSystemProvider fileSystemProvider : load)
+		{
+			LOG.info("ServiceLoader FSP: " + fileSystemProvider.getScheme());
+		}
+
 		for (FileSystemProvider fsr : FileSystemProvider.installedProviders())
 		{
 			LOG.info("FSP: " + fsr.getScheme());
 		}
 
-		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_MOUNT_POINT_URI), (Map<String, String>) null);
+		Map<String, String> config = new HashMap<>();
+		config.put(CmisConfig.URL, ALFRESCO_URL);
+
+		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_MOUNT_POINT_URI), config);
 		// FileSystem fs = Jimfs.newFileSystem();
 		LOG.info("FS separator: " + fs.getSeparator());
 
