@@ -22,8 +22,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.util.tracker.ServiceTracker;
+
 public class CmisFileSystemProvider extends FileSystemProvider
 {
+	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+
+	private SessionFactory sessionFactory;
+
 	private Map<URI, FileSystem> filesystems = new HashMap<>();
 
 	public CmisFileSystemProvider()
@@ -40,9 +51,17 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	@Override
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
+
+		Bundle bundle = FrameworkUtil.getBundle(this.getClass());
+		BundleContext bundleContext = bundle.getBundleContext();
 		// TODO Auto-generated method stub
 		System.out.println("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
-		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, env);
+		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
+		serviceTracker.open();
+		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
+		Session session = sessionFactory.createSession(null);
+
+		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, session);
 		this.filesystems.put(uri, cmisFs);
 		return cmisFs;
 	}

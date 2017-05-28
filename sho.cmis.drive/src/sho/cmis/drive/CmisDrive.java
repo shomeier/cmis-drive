@@ -5,14 +5,21 @@ import java.nio.file.FileSystem;
 import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventConstants;
+import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +47,8 @@ public class CmisDrive
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDrive.class.getName());
 
+	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+
 	private static final String ALFRESCO_URL =
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
 
@@ -58,16 +67,33 @@ public class CmisDrive
 	public void activate()
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
-		try
+
+		// we need to wait for the CMIS Filesystem Bundle to be started
+		Dictionary<String, Object> ht = new Hashtable<String, Object>();
+		ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
+		context.registerService(EventHandler.class.getName(), new EventHandler()
 		{
-			javafs();
-		}
-		catch (Exception ioe)
-		{
-			LOG.error("Error in javafs: ", ioe);
-			ioe.printStackTrace();
-		}
-		nativity();
+			@Override
+			public void handleEvent(Event event)
+			{
+				System.out.println("handleEvent: " + event);
+				if (event.containsProperty("bundle.symbolicName"))
+				{
+					if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
+					{
+						try
+						{
+							javafs();
+						}
+						catch (Exception e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}, ht);
 		LOG.debug("Activated component: {}", COMPONENT_NAME);
 	}
 

@@ -12,9 +12,9 @@ import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
@@ -24,13 +24,13 @@ public class CmisFileSystem extends FileSystem
 
 	private final CmisFileSystemProvider provider;
 	private final URI uri;
-	private final Map<String, ?> env;
+	private final Session session;
 
-	CmisFileSystem(CmisFileSystemProvider provider, URI uri, Map<String, ?> env)
+	CmisFileSystem(CmisFileSystemProvider provider, URI uri, Session session)
 	{
 		this.provider = provider;
 		this.uri = uri;
-		this.env = env;
+		this.session = session;
 		// ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
 		// serviceTracker.open();
 		// SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );

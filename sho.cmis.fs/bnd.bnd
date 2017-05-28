@@ -8,6 +8,7 @@
 -testpath: \
 	${junit}
 
+Bundle-Activator: sho.cmis.fs.internal.Activator
 Export-Package: sho.cmis.fs
 Private-Package: sho.cmis.fs.internal
 
