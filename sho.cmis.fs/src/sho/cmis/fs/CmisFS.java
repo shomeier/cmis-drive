@@ -1,4 +1,4 @@
-package sho.cmis.drive.fs;
+package sho.cmis.fs;
 
 import java.io.IOException;
 import java.net.URI;

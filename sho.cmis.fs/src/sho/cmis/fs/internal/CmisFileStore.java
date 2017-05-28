@@ -1,4 +1,4 @@
-package sho.cmis.drive.fs.internal;
+package sho.cmis.fs.internal;
 
 import java.io.IOException;
 import java.nio.file.FileStore;
