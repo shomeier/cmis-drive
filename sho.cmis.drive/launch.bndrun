@@ -31,7 +31,9 @@
 	io.netty.common;version='[4.0.40,4.0.41)',\
 	io.netty.transport;version='[4.0.40,4.0.41)',\
 	liferay-nativity;version=snapshot,\
-	slf4j.log4j12;version='[1.6.1,1.6.2)'
+	slf4j.log4j12;version='[1.6.1,1.6.2)',\
+	com.google.guava;version='[16.0.1,16.0.2)',\
+	com.google.jimfs;version='[1.0.0,1.0.1)'
 
 -runrequires: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
@@ -40,7 +42,8 @@
 	osgi.identity;filter:='(osgi.identity=ch.qos.logback.core)',\
 	osgi.identity;filter:='(&(osgi.identity=ch.qos.logback.classic)(version>=1.2.3))',\
 	osgi.identity;filter:='(osgi.identity=javafs)',\
-	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)'
+	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
+	osgi.identity;filter:='(osgi.identity=com.google.jimfs)'
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi
 -runsystempackages.objenesis: sun.misc

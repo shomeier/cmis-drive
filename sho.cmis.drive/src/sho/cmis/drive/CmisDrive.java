@@ -1,6 +1,5 @@
 package sho.cmis.drive;
 
-import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
@@ -15,6 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.jimfs.Jimfs;
 import com.liferay.nativity.control.MessageListener;
 import com.liferay.nativity.control.NativityControl;
 import com.liferay.nativity.control.NativityControlUtil;
@@ -31,7 +31,6 @@ import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 import co.paralleluniverse.javafs.JavaFS;
-import sho.cmis.drive.fs.CmisFS;
 
 @Component(immediate = true)
 public class CmisDrive
@@ -42,7 +41,8 @@ public class CmisDrive
 
 	private static final String OVERLAY_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
 
-	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
+	// | private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
+	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/mount";
 	private static final String CMIS_MOUNT_POINT_URI = "cmis:///Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 
 	private static final boolean READONLY = true;
@@ -72,7 +72,8 @@ public class CmisDrive
 			LOG.info("FSP: " + fsr.getScheme());
 		}
 
-		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_MOUNT_POINT_URI), (Map<String, String>) null);
+		// FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_MOUNT_POINT_URI), (Map<String, String>) null);
+		FileSystem fs = Jimfs.newFileSystem();
 		LOG.info("FS separator: " + fs.getSeparator());
 
 		Map<String, String> options = new HashMap<>();
