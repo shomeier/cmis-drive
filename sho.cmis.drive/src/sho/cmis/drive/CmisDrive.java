@@ -31,7 +31,7 @@ import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 import co.paralleluniverse.javafs.JavaFS;
-import sho.cmis.drive.fs.CmisFS;
+import sho.cmis.fs.CmisFS;
 
 @Component(immediate = true)
 public class CmisDrive
