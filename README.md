@@ -16,6 +16,6 @@ Projects:
 <li> "sho.cmis.drive" mount the CMIS Filesystem with javafs and initializes Nativity
 
 ## Screenshots
-<img src="./screens/CmisDrive.jpg" width="300">
-<img src="./screens/CmisDrive_Menu_Badges.jpg" width="300">
+<img src="./screens/CmisDrive.jpg" width="500">
+<img src="./screens/CmisDrive_Menu_Badges.jpg" width="500">
 
