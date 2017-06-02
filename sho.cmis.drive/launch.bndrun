@@ -31,7 +31,8 @@
 	felix.fileinstall.noInitialDelay=true,\
 	felix.fileinstall.poll=100,\
 	felix.fileinstall.log.level=3,\
-	felix.fileinstall.dir=config
+	felix.fileinstall.dir=config,\
+	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns
 
 -runbundles: \
 	com.fasterxml.jackson.core.jackson-annotations;version='[2.8.1,2.8.2)',\

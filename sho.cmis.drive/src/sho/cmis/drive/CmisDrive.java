@@ -56,7 +56,9 @@ public class CmisDrive
 
 	private static final String COMPONENT_NAME = "sho.cmis.drive";
 
-	private static final String OVERLAY_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
+	private static final String OVERLAY_OMN_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
+	// private static final String OVERLAY_CMIS_ICON = "./img/cmis-wb-icon.png.icns";
+	private static final String OVERLAY_CMIS_ICON = System.getProperty("icon");
 
 	// | private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/mount";
@@ -115,14 +117,15 @@ public class CmisDrive
 		}
 
 		Map<String, String> config = new HashMap<>();
-		// config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
-		config.put(CmisConfig.BROWSER_URL, LOCAL_URL);
+		config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
+		// config.put(CmisConfig.BROWSER_URL, LOCAL_URL);
 		config.put(CmisConfig.BINDING_TYPE, "browser");
-		// config.put(CmisConfig.USER, "admin");
-		// config.put(CmisConfig.PASSWORD, "admin");
-		config.put(CmisConfig.USER, "test");
-		config.put(CmisConfig.PASSWORD, "test");
+		config.put(CmisConfig.USER, "admin");
+		config.put(CmisConfig.PASSWORD, "admin");
+		// config.put(CmisConfig.USER, "test");
+		// config.put(CmisConfig.PASSWORD, "test");
 		config.put(CmisConfig.REPOSITORY_ID, "default");
+		config.put(CmisConfig.CACHE_PATH_OMIT, "false");
 
 		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), config);
 		// FileSystem fs = Jimfs.newFileSystem();
@@ -130,12 +133,12 @@ public class CmisDrive
 
 		Map<String, String> options = new HashMap<>();
 		// options.put("fsname", fs.getClass().getSimpleName() + "@" + System.currentTimeMillis());
-		options.put("fsname", "OMN");
-		options.put("volname", "Online Media Net");
-		options.put("volicon", OVERLAY_ICON);
+		options.put("fsname", "CMIS");
+		options.put("volname", "Alfresco CMIS Server");
+		options.put("volicon", OVERLAY_CMIS_ICON);
 
 		LOG.info("Mounting FileSystem ...");
-		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, true, options);
+		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, false, options);
 		LOG.info("... mounted FileSystem!");
 	}
 
@@ -193,7 +196,7 @@ public class CmisDrive
 					// Used by Mac Finder Sync. This unique id can be set at runtime.
 					// testIconId = 1;
 
-					fileIconControl.registerIconWithId(OVERLAY_ICON, "omn", Integer.toString(testIconId));
+					fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
 					// }
 					// else if (false)
 					// {
@@ -264,7 +267,7 @@ public class CmisDrive
 			// Used by Mac Finder Sync. This unique id can be set at runtime.
 			// testIconId = 1;
 
-			fileIconControl.registerIconWithId(OVERLAY_ICON, "omn", Integer.toString(testIconId));
+			fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
 			// }
 			// else if (false)
 			// {
@@ -282,7 +285,7 @@ public class CmisDrive
 				@Override
 				public List<ContextMenuItem> getContextMenuItems(String[] paths)
 				{
-					ContextMenuItem contextMenuItem = new ContextMenuItem("Nativity Test");
+					ContextMenuItem contextMenuItem = new ContextMenuItem("CmisDrive Menu Test");
 
 					ContextMenuAction contextMenuAction = new ContextMenuAction()
 					{
@@ -299,7 +302,7 @@ public class CmisDrive
 					};
 
 					contextMenuItem.setContextMenuAction(contextMenuAction);
-					contextMenuItem.setIconPath(OVERLAY_ICON);
+					contextMenuItem.setIconPath(OVERLAY_CMIS_ICON);
 
 					List<ContextMenuItem> contextMenuItems = new ArrayList<ContextMenuItem>()
 					{

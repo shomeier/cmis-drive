@@ -24,6 +24,8 @@ public class CmisPath implements Path
 
 	private CmisFileSystem cmisFs;
 
+	private ArrayList<Path> childrenCache;
+
 	CmisPath(CmisFileSystem cmisFs, CmisObject cmisObject)
 	{
 		this.cmisFs = cmisFs;
@@ -263,16 +265,21 @@ public class CmisPath implements Path
 
 	public Iterator<Path> getChildren()
 	{
-		ArrayList<Path> it = new ArrayList<>();
-		if (cmisObject instanceof Folder)
+		if (this.childrenCache == null)
 		{
-			ItemIterable<CmisObject> children = ( (Folder) cmisObject ).getChildren();
-			for (CmisObject co : children)
+			ArrayList<Path> it = new ArrayList<>();
+			if (cmisObject instanceof Folder)
 			{
-				it.add(new CmisPath(cmisFs, co));
+				ItemIterable<CmisObject> children = ( (Folder) cmisObject ).getChildren();
+				for (CmisObject co : children)
+				{
+					it.add(new CmisPath(cmisFs, co));
+				}
+				this.childrenCache = it;
 			}
 		}
-		return it.iterator();
+
+		return this.childrenCache.iterator();
 	}
 
 	public String toString()

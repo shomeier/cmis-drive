@@ -22,9 +22,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -78,7 +80,11 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
 		// Session session = sessionFactory.createSession((Map<String, String>) env);
 		List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
-		Session session = repositories.get(1).createSession();
+
+		Session session = repositories.get(0).createSession();
+		OperationContext opCtx = new OperationContextImpl();
+		opCtx.setCacheEnabled(true);
+		session.setDefaultContext(opCtx);
 		Folder rootFolder = session.getRootFolder();
 
 		// CmisObject objectByPath = session.getObjectByPath("/");

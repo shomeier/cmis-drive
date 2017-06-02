@@ -1,8 +1,21 @@
-<h1><img src="http://enroute.osgi.org/img/enroute-logo-64.png" witdh=40px style="float:left;margin: 0 1em 1em 0;width:40px">
-OSGi enRoute Archetype</h1>
+# CmisDrive
 
-This repository represents a template workspace for bndtools, it is the easiest way to get started with OSGi enRoute. The workspace is useful in an IDE (bndtools or Intellij) and has support for [continuous integration][2] with [gradle][3]. If you want to get started with enRoute, then follow the steps in the [quick-start guide][1].
+This is work in progress about how to mount a CMIS repository as FUSE Filesystem and using the FinderSync API to add context menus.
+Currently only Mac supported.
 
-[1]: http://enroute.osgi.org/quick-start.html
-[2]: http://enroute.osgi.org/tutorial_base/800-ci.html
-[3]: https://www.gradle.org/
+Prerequisites:
+<li> FUSE installed
+<li> For now the FinderSync extension to add context menus need to be started manually from the Xcode project
+
+Techniques used:
+<li> javafs to mount an java.nio.Filesystem as FUSE drive (uses JNR for native calls)
+<li> liferay-nativity to add context menus to finder
+
+Projects:
+<li> "sho.cmis.fs" contains the CMIS Filesystem which is an implementation of java.nio.file.FileSystem (and its Provider).
+<li> "sho.cmis.drive" mount the CMIS Filesystem with javafs and initializes Nativity
+
+## Screenshots
+<img src="./screens/CmisDrive.jpg" width="300">
+<img src="./screens/CmisDrive_Menu_Badges.jpg" width="300">
+

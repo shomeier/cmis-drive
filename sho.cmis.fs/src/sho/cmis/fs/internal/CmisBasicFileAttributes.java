@@ -8,6 +8,7 @@ import java.nio.file.attribute.UserPrincipal;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
 
@@ -76,7 +77,12 @@ public class CmisBasicFileAttributes implements PosixFileAttributes
 	@Override
 	public long size()
 	{
-		// TODO Auto-generated method stub
+		CmisObject cmisObject = cmisPath.getCmisObject();
+		if (cmisObject instanceof Document)
+		{
+			return ( (Document) cmisObject ).getContentStreamLength();
+		}
+
 		return 0;
 	}
 

@@ -10,8 +10,11 @@ import java.nio.file.WatchService;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -20,11 +23,15 @@ import org.osgi.framework.FrameworkUtil;
 
 public class CmisFileSystem extends FileSystem
 {
+	private final String ROOT_PATH = "/";
+
 	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
 	private final CmisFileSystemProvider provider;
 	private final URI uri;
 	private final Session session;
+
+	private Map<String, CmisPath> cache = new HashMap<>();
 
 	CmisFileSystem(CmisFileSystemProvider provider, URI uri, Session session)
 	{
@@ -108,11 +115,43 @@ public class CmisFileSystem extends FileSystem
 	{
 		// TODO Auto-generated method stub
 		System.out.println("IN FS getPath with first: " + first);
+		for (String string : more)
+		{
+			System.out.println("... and mor: " + string);
+		}
 
-		if (first.equals("/"))
-			return getRootPath();
+		if (first.equals(ROOT_PATH))
+		{
+			if (!cache.containsKey(ROOT_PATH))
+			{
+				cache.put(ROOT_PATH, getRootPath());
+			}
+			return cache.get(ROOT_PATH);
+		}
 		else
+		{
+			String parent = getParent(first);
+			if (!cache.containsKey(parent))
+			{
+				CmisPath parentPath = new CmisPath(this, session.getObjectByPath(parent));
+				cache.put(parent, parentPath);
+			}
+			CmisPath parentPath = cache.get(parent);
+			Iterator<Path> children = parentPath.getChildren();
+			for (; children.hasNext();)
+			{
+				Path path = children.next();
+				String string = path.toString();
+				string = parent + string;
+				if (string.equals(first))
+					return path;
+			}
+
+			System.out.println("DANGER....NO CACHE ENTRY FOUND for: ");
+			System.out.println("First: " + first);
+			System.out.println("Parent: " + parent);
 			return new CmisPath(this, session.getObjectByPath(first));
+		}
 	}
 
 	@Override
@@ -142,6 +181,13 @@ public class CmisFileSystem extends FileSystem
 	private CmisPath getRootPath()
 	{
 		return new CmisPath(this, session.getRootFolder());
+	}
+
+	private String getParent(String path)
+	{
+		int endIndex = path.lastIndexOf("/");
+		String parent = path.substring(0, endIndex + 1);
+		return parent;
 	}
 
 }
