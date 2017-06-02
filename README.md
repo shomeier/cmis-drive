@@ -1,4 +1,4 @@
-# Cmis Drive
+# Cmis Drive [EXPERIMENTAL]
 
 Mount a CMIS repository into Finder.
 This is work in progress about how to mount a CMIS repository as FUSE Filesystem and using the FinderSync API to add context menus.
