@@ -14,22 +14,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.chemistry.opencmis.client.api.CmisObject;
-import org.apache.chemistry.opencmis.client.api.Document;
-import org.apache.chemistry.opencmis.client.api.Folder;
-import org.apache.chemistry.opencmis.client.api.ItemIterable;
+import org.apache.chemistry.opencmis.client.api.FileableCmisObject;
 
 public class CmisPath implements Path
 {
-	private CmisObject cmisObject;
-
 	private CmisFileSystem cmisFs;
+	private FileableCmisObject cmisObject;
+	private String path;
 
 	private ArrayList<Path> childrenCache;
 
-	CmisPath(CmisFileSystem cmisFs, CmisObject cmisObject)
+	CmisPath(CmisFileSystem cmisFs, String path, CmisObject cmisObject)
 	{
 		this.cmisFs = cmisFs;
-		this.cmisObject = cmisObject;
+		this.path = path;
+		this.cmisObject = (FileableCmisObject) cmisObject;
 	}
 
 	@Override
@@ -66,23 +65,9 @@ public class CmisPath implements Path
 	public Path getParent()
 	{
 		System.out.println("CmisPath: getParent");
-		if (cmisObject instanceof Document)
-		{
-			Folder parent = ( (Document) cmisObject ).getParents().get(0);
-			return new CmisPath(cmisFs, parent);
-		}
-		else if (cmisObject instanceof Folder)
-		{
-			Folder folder = ( (Folder) cmisObject );
-			if (folder.isRootFolder())
-			{
-				return null;
-			}
-			Folder parent = folder.getParents().get(0);
-			return new CmisPath(cmisFs, parent);
-		}
 
-		return null;
+		CmisCache cmisCache = cmisFs.getCmisCache();
+		return cmisCache.getParentCmisPath(path);
 	}
 
 	@Override
@@ -255,31 +240,19 @@ public class CmisPath implements Path
 
 	public String getName()
 	{
-		return cmisObject.getName();
+		return Util.getName(this.path);
 	}
 
-	public CmisObject getCmisObject()
+	public FileableCmisObject getCmisObject()
 	{
 		return cmisObject;
 	}
 
 	public Iterator<Path> getChildren()
 	{
-		if (this.childrenCache == null)
-		{
-			ArrayList<Path> it = new ArrayList<>();
-			if (cmisObject instanceof Folder)
-			{
-				ItemIterable<CmisObject> children = ( (Folder) cmisObject ).getChildren();
-				for (CmisObject co : children)
-				{
-					it.add(new CmisPath(cmisFs, co));
-				}
-				this.childrenCache = it;
-			}
-		}
-
-		return this.childrenCache.iterator();
+		System.out.println("CmisPath: getChildren()");
+		CmisCache cmisCache = this.cmisFs.getCmisCache();
+		return cmisCache.getChildren(this.path).values().iterator();
 	}
 
 	public String toString()

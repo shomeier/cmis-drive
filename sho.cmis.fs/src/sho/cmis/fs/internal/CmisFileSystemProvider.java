@@ -89,7 +89,11 @@ public class CmisFileSystemProvider extends FileSystemProvider
 
 		// CmisObject objectByPath = session.getObjectByPath("/");
 
-		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, session);
+		CmisCache cmisCache = new CmisCache(session);
+		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, cmisCache);
+		// TODO: This weird!
+		cmisCache.setFilesystem(cmisFs);
+
 		this.filesystems.put(uri, cmisFs);
 		return cmisFs;
 	}
@@ -115,9 +119,19 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
 		throws IOException
 	{
-		System.out.println("IN FSP newByteChannel!!!");
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("IN FSP newByteChannel with path: " + path);
+
+		for (OpenOption option : options)
+		{
+			System.out.println("Option: " + option);
+		}
+		for (FileAttribute<?> fileAttribute : attrs)
+		{
+
+			System.out.println("attrs: " + fileAttribute);
+		}
+
+		return ( (CmisFileSystem) path.getFileSystem() ).getCmisCache().getContent(path);
 	}
 
 	@Override
