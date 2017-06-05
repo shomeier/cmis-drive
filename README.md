@@ -22,7 +22,7 @@ This results in READ requests to those files (e.g. JPGs), which in turn results 
 	* We can turn off icon previews by selecting the CMIS Mount and pressing 'CMD+J' -> Uncheck 'Show icon preview'. This needs to be done by the user manually!
 	* We can store the files in a cache folder so that they only need to be downloaded once. In this case we need to handle TTL, Max Cache Size, etc
 	* I am not sure but I heard that the .DS_Store file maybe can handle/control icon previews of a folder. If so we could create a .DS_store file for the folders automatically (needs research in .DS_Store file format)
-2. Multi-Thread access to CMIS Filesystem via FUSE: Calls to the CMIS Java Filesystem implementation are done often from multiple different threads. In order that these calls to not always result in a remote call we not to have a thread-safe cache implementation which encapuslates and protects from remote calls. It is possible to start start FUSE single-threaded (-s).
+2. Multi-Thread access to CMIS Filesystem via FUSE: Calls to the CMIS Java Filesystem implementation are done often from multiple different threads. In order that these calls do not always result in a remote call we need to have a thread-safe cache implementation which encapsulates and protects from remote calls. It is also possible to start FUSE in a single-thread mode (parameter '-s').
 3. TypeDefinitionCache?
 
 ## Screenshots
