@@ -124,6 +124,7 @@ public class CmisDrive
 			config.put(CmisConfig.BROWSER_URL, APLN_URL);
 			config.put(CmisConfig.USER, "test");
 			config.put(CmisConfig.PASSWORD, "test");
+			config.put(CmisConfig.REPOSITORY_ID, "Artikelbilder");
 
 		}
 		else
@@ -132,7 +133,6 @@ public class CmisDrive
 			config.put(CmisConfig.USER, "admin");
 			config.put(CmisConfig.PASSWORD, "admin");
 		}
-		// config.put(CmisConfig.REPOSITORY_ID, "default");
 		config.put(CmisConfig.CACHE_PATH_OMIT, "false");
 
 		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), config);

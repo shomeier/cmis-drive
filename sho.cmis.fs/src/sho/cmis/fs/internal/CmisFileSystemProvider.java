@@ -21,16 +21,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
+
+import sho.cmis.fs.CmisConfig;
 
 public class CmisFileSystemProvider extends FileSystemProvider
 {
@@ -71,23 +71,30 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
 
-		Bundle bundle = FrameworkUtil.getBundle(this.getClass());
-		BundleContext bundleContext = bundle.getBundleContext();
-		// TODO Auto-generated method stub
 		System.out.println("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
 		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
 		serviceTracker.open();
 		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
 		// Session session = sessionFactory.createSession((Map<String, String>) env);
-		List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
+		Session session = null;
 
-		Session session = repositories.get(0).createSession();
+		// if repository id is set we can directly create the session ...
+		if (env.containsKey(CmisConfig.REPOSITORY_ID))
+		{
+			session = sessionFactory.createSession((Map<String, String>) env);
+
+			// otherwise we just take the first repository ...
+		}
+		else
+		{
+			List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
+			session = repositories.get(0).createSession();
+
+		}
+
 		OperationContext opCtx = new OperationContextImpl();
 		opCtx.setCacheEnabled(true);
 		session.setDefaultContext(opCtx);
-		Folder rootFolder = session.getRootFolder();
-
-		// CmisObject objectByPath = session.getObjectByPath("/");
 
 		CmisCache cmisCache = new CmisCache(session);
 		CmisFileSystem cmisFs = new CmisFileSystem(this, uri, cmisCache);
