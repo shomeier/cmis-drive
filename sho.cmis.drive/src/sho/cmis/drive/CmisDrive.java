@@ -49,10 +49,11 @@ public class CmisDrive
 
 	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
+	private final static String USE_SERVER = "APLN";
+
 	private static final String ALFRESCO_URL =
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
-
-	private static final String LOCAL_URL = "http://localhost:8083/cmisBrowser";
+	private static final String APLN_URL = "http://localhost:8083/cmisBrowser";
 
 	private static final String COMPONENT_NAME = "sho.cmis.drive";
 
@@ -117,14 +118,21 @@ public class CmisDrive
 		}
 
 		Map<String, String> config = new HashMap<>();
-		config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
-		// config.put(CmisConfig.BROWSER_URL, LOCAL_URL);
 		config.put(CmisConfig.BINDING_TYPE, "browser");
-		config.put(CmisConfig.USER, "admin");
-		config.put(CmisConfig.PASSWORD, "admin");
-		// config.put(CmisConfig.USER, "test");
-		// config.put(CmisConfig.PASSWORD, "test");
-		config.put(CmisConfig.REPOSITORY_ID, "default");
+		if (USE_SERVER.equals("APLN"))
+		{
+			config.put(CmisConfig.BROWSER_URL, APLN_URL);
+			config.put(CmisConfig.USER, "test");
+			config.put(CmisConfig.PASSWORD, "test");
+
+		}
+		else
+		{
+			config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
+			config.put(CmisConfig.USER, "admin");
+			config.put(CmisConfig.PASSWORD, "admin");
+		}
+		// config.put(CmisConfig.REPOSITORY_ID, "default");
 		config.put(CmisConfig.CACHE_PATH_OMIT, "false");
 
 		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), config);
