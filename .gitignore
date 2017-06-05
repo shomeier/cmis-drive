@@ -4,3 +4,4 @@
 dist
 enroute.zip
 .metadata
+hs_err_pid*.log

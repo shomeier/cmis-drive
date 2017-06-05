@@ -133,6 +133,8 @@ public class CmisDrive
 
 		Map<String, String> options = new HashMap<>();
 		// options.put("fsname", fs.getClass().getSimpleName() + "@" + System.currentTimeMillis());
+		options.put("nobrowse", null);
+		options.put("noappledouble", null);
 		options.put("fsname", "CMIS");
 		options.put("volname", "Alfresco CMIS Server");
 		options.put("volicon", OVERLAY_CMIS_ICON);
