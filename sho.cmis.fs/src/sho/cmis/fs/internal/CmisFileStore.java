@@ -5,14 +5,18 @@ import java.nio.file.FileStore;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.attribute.FileStoreAttributeView;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CmisFileStore extends FileStore
 {
+	private static final Logger LOG = LoggerFactory.getLogger(CmisFileStore.class.getName());
 
 	@Override
 	public String name()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore name");
+		LOG.trace("IN FileStore name");
 		return null;
 	}
 
@@ -20,7 +24,7 @@ public class CmisFileStore extends FileStore
 	public String type()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore type");
+		LOG.trace("IN FileStore type");
 		return null;
 	}
 
@@ -28,7 +32,7 @@ public class CmisFileStore extends FileStore
 	public boolean isReadOnly()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore isReadOnly");
+		LOG.trace("IN FileStore isReadOnly");
 		return false;
 	}
 
@@ -36,7 +40,7 @@ public class CmisFileStore extends FileStore
 	public long getTotalSpace() throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore getTotalSpace");
+		LOG.trace("IN FileStore getTotalSpace");
 		return 0;
 	}
 
@@ -44,7 +48,7 @@ public class CmisFileStore extends FileStore
 	public long getUsableSpace() throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore getUsableSpace");
+		LOG.trace("IN FileStore getUsableSpace");
 		return 0;
 	}
 
@@ -52,7 +56,7 @@ public class CmisFileStore extends FileStore
 	public long getUnallocatedSpace() throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore getUnallocatedSpace");
+		LOG.trace("IN FileStore getUnallocatedSpace");
 		return 0;
 	}
 
@@ -60,7 +64,7 @@ public class CmisFileStore extends FileStore
 	public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore supportsFileAttributeView1");
+		LOG.trace("IN FileStore supportsFileAttributeView1");
 		return false;
 	}
 
@@ -68,7 +72,7 @@ public class CmisFileStore extends FileStore
 	public boolean supportsFileAttributeView(String name)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore supportsFileAttributeView2");
+		LOG.trace("IN FileStore supportsFileAttributeView2");
 		return false;
 	}
 
@@ -76,7 +80,7 @@ public class CmisFileStore extends FileStore
 	public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> type)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore getFileStoreAttributeView");
+		LOG.trace("IN FileStore getFileStoreAttributeView");
 		return null;
 	}
 
@@ -84,7 +88,7 @@ public class CmisFileStore extends FileStore
 	public Object getAttribute(String attribute) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FileStore getAttribute");
+		LOG.trace("IN FileStore getAttribute");
 		return null;
 	}
 

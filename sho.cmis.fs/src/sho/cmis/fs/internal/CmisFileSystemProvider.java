@@ -29,11 +29,15 @@ import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sho.cmis.fs.CmisConfig;
 
 public class CmisFileSystemProvider extends FileSystemProvider
 {
+	private static final Logger LOG = LoggerFactory.getLogger(CmisFileSystem.class.getName());
+
 	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
 	private SessionFactory sessionFactory;
@@ -70,8 +74,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	@Override
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
-
-		System.out.println("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
+		LOG.trace("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
 		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
 		serviceTracker.open();
 		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
@@ -108,7 +111,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	@Override
 	public FileSystem getFileSystem(URI uri)
 	{
-		System.out.println("IN FSP getFileSystem(URI uri)!!!");
+		LOG.trace("IN FSP getFileSystem(URI uri)!!!");
 		FileSystem cmisFs = this.filesystems.get(uri);
 		return cmisFs;
 	}
@@ -117,7 +120,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public Path getPath(URI uri)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP getPath!!!");
+		LOG.trace("IN FSP getPath!!!");
 		// return Paths.get(uri);
 		return null;
 	}
@@ -126,16 +129,16 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
 		throws IOException
 	{
-		System.out.println("IN FSP newByteChannel with path: " + path);
+		LOG.trace("IN FSP newByteChannel with path: " + path);
 
 		for (OpenOption option : options)
 		{
-			System.out.println("Option: " + option);
+			LOG.trace("Option: " + option);
 		}
 		for (FileAttribute<?> fileAttribute : attrs)
 		{
 
-			System.out.println("attrs: " + fileAttribute);
+			LOG.trace("attrs: " + fileAttribute);
 		}
 
 		return ( (CmisFileSystem) path.getFileSystem() ).getCmisCache().getContent(path);
@@ -145,7 +148,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP newDirectoryStream!!!");
+		LOG.trace("IN FSP newDirectoryStream!!!");
 		return new CmisDirectoryStream((CmisPath) dir, filter);
 	}
 
@@ -153,7 +156,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP createDirectory!!!");
+		LOG.trace("IN FSP createDirectory!!!");
 
 	}
 
@@ -161,7 +164,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void delete(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP Odelete!!!");
+		LOG.trace("IN FSP Odelete!!!");
 
 	}
 
@@ -169,7 +172,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void copy(Path source, Path target, CopyOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP delete!!!");
+		LOG.trace("IN FSP delete!!!");
 
 	}
 
@@ -177,7 +180,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void move(Path source, Path target, CopyOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP move!!!");
+		LOG.trace("IN FSP move!!!");
 
 	}
 
@@ -185,7 +188,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public boolean isSameFile(Path path, Path path2) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP isSameFile!!!");
+		LOG.trace("IN FSP isSameFile!!!");
 		return false;
 	}
 
@@ -193,7 +196,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public boolean isHidden(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP isHidden!!!");
+		LOG.trace("IN FSP isHidden!!!");
 		return false;
 	}
 
@@ -201,7 +204,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public FileStore getFileStore(Path path) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP getFileStore!!!");
+		LOG.trace("IN FSP getFileStore!!!");
 		return null;
 	}
 
@@ -209,7 +212,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void checkAccess(Path path, AccessMode... modes) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP checkAccess!!!");
+		LOG.trace("IN FSP checkAccess!!!");
 
 	}
 
@@ -217,7 +220,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <V extends FileAttributeView> V getFileAttributeView(Path path, Class<V> type, LinkOption... options)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP getFileAttributeView!!!");
+		LOG.trace("IN FSP getFileAttributeView!!!");
 		return null;
 	}
 
@@ -225,8 +228,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
-		System.out.println("222 N FSP readAttributes1 with path: " + path);
+		LOG.trace("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
+		LOG.trace("222 N FSP readAttributes1 with path: " + path);
 		return (A) new CmisBasicFileAttributes((CmisPath) path);
 		// return Files.readAttributes(path, type, options);
 		// return null;
@@ -236,14 +239,14 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FSP readAttributes2!!!");
+		LOG.trace("IN FSP readAttributes2!!!");
 		return null;
 	}
 
 	@Override
 	public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException
 	{
-		System.out.println("IN FSP setAttribute!!!");
+		LOG.trace("IN FSP setAttribute!!!");
 		// TODO Auto-generated method stub
 
 	}

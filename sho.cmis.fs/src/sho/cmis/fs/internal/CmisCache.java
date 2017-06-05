@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
@@ -18,10 +19,16 @@ import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.ItemIterable;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CmisCache
 {
+	private static final Logger LOG = LoggerFactory.getLogger(CmisCache.class.getName());
+
 	private final Session session;
+
+	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 	private CmisFileSystem cmisFs;
 
@@ -42,28 +49,33 @@ public class CmisCache
 
 	Map<String, Path> getChildren(String path)
 	{
-		if (!childrenCache.containsKey(path))
+		lock.writeLock().lock();
+		Map<String, Path> retVal = null;
+		try
 		{
-			CmisObject folder = session.getObjectByPath(path);
-			if (folder instanceof Folder)
+			boolean cacheHit = childrenCache.containsKey(path);
+			if (!cacheHit)
 			{
-				ItemIterable<CmisObject> children = ( (Folder) folder ).getChildren();
-				Map<String, Path> childrenMap = new HashMap<>();
-				for (CmisObject cmisObject : children)
+				CmisObject folder = session.getObjectByPath(path);
+				if (folder instanceof Folder)
 				{
-					// String cmisPath = path;
-					// if (!path.equals("/"))
-					// {
-					// cmisPath = cmisPath + "/";
-					// }
-					String cmisPath = path + cmisObject.getName();
-					System.out.println("Putting in cache: " + cmisPath);
-					childrenMap.put(cmisPath, new CmisPath(cmisFs, cmisPath, cmisObject));
+					ItemIterable<CmisObject> children = ( (Folder) folder ).getChildren();
+					Map<String, Path> childrenMap = new HashMap<>();
+					for (CmisObject cmisObject : children)
+					{
+						String cmisPath = path + cmisObject.getName();
+						childrenMap.put(cmisPath, new CmisPath(cmisFs, cmisPath, cmisObject));
+					}
+					childrenCache.put(path, childrenMap);
 				}
-				childrenCache.put(path, childrenMap);
 			}
+			retVal = childrenCache.get(path);
+			return retVal;
 		}
-		return childrenCache.get(path);
+		finally
+		{
+			lock.writeLock().unlock();
+		}
 	}
 
 	Path getCmisPath(String path)
@@ -77,7 +89,6 @@ public class CmisCache
 		String parent = Util.getParentPath(path);
 		Map<String, Path> children = getChildren(parent);
 		Path retVal = children.get(path);
-		System.out.println("RetVal for path = " + path + ": " + retVal);
 		return retVal;
 	}
 
@@ -104,34 +115,36 @@ public class CmisCache
 
 	SeekableByteChannel getContent(Path path) throws IOException
 	{
-		System.out.println("In getContent for path: " + path);
-		// if (getFullPath(path).endsWith("sample2.jpg"))
-		// {
 		CmisPath cmisPath = (CmisPath) getCmisPath(path);
 		FileableCmisObject cmisObject = cmisPath.getCmisObject();
-		System.out.println("In getContent for ID: " + cmisObject.getId());
 
-		if (cmisObject instanceof Document)
+		lock.writeLock().lock();
+		try
 		{
-			Path target = Paths.get("/Volumes/Shorty_JetDrive_1/drive_tmp/" + cmisObject.getId());
-			if (!Files.exists(target))
+			if (cmisObject instanceof Document)
 			{
-				ContentStream contentStream = ( (Document) cmisObject ).getContentStream();
-				InputStream stream = contentStream.getStream();
-				Files.copy(stream, target, StandardCopyOption.REPLACE_EXISTING);
+				Path target = Paths.get("/Volumes/Shorty_JetDrive_1/drive_tmp/" + cmisObject.getId());
+				if (!Files.exists(target))
+				{
+					ContentStream contentStream = ( (Document) cmisObject ).getContentStream();
+					InputStream stream = contentStream.getStream();
+					Files.copy(stream, target, StandardCopyOption.REPLACE_EXISTING);
+				}
+				SeekableByteChannel byteChannel = Files.newByteChannel(target);
+				return byteChannel;
 			}
-			SeekableByteChannel byteChannel = Files.newByteChannel(target);
-			return byteChannel;
-		}
-		// }
 
-		return null;
+			return null;
+		}
+		finally
+		{
+			lock.writeLock().unlock();
+		}
 	}
 
 	private String getFullPath(Path path)
 	{
 		List<String> paths = ( (CmisPath) path ).getCmisObject().getPaths();
-		System.out.println("Full path: " + paths.get(0));
 		return paths.get(0);
 	}
 }

@@ -16,9 +16,13 @@ import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CmisFileSystem extends FileSystem
 {
+	private static final Logger LOG = LoggerFactory.getLogger(CmisFileSystem.class.getName());
+
 	private final String ROOT_PATH = "/";
 
 	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
@@ -42,7 +46,7 @@ public class CmisFileSystem extends FileSystem
 	@Override
 	public FileSystemProvider provider()
 	{
-		System.out.println("IN FS provider!!!");
+		LOG.trace("IN FS provider!!!");
 		return this.provider;
 	}
 
@@ -54,7 +58,7 @@ public class CmisFileSystem extends FileSystem
 	@Override
 	public void close() throws IOException
 	{
-		System.out.println("IN FS close!!!");
+		LOG.trace("IN FS close!!!");
 		// TODO Auto-generated method stub
 
 	}
@@ -63,7 +67,7 @@ public class CmisFileSystem extends FileSystem
 	public boolean isOpen()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS isOpen!!!");
+		LOG.trace("IN FS isOpen!!!");
 		return false;
 	}
 
@@ -71,14 +75,14 @@ public class CmisFileSystem extends FileSystem
 	public boolean isReadOnly()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS isReadOnly!!!");
+		LOG.trace("IN FS isReadOnly!!!");
 		return false;
 	}
 
 	@Override
 	public String getSeparator()
 	{
-		System.out.println("IN FS getSeparator!!!");
+		LOG.trace("IN FS getSeparator!!!");
 		return "/";
 	}
 
@@ -86,7 +90,7 @@ public class CmisFileSystem extends FileSystem
 	public Iterable<Path> getRootDirectories()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS getRootDirectories!!!");
+		LOG.trace("IN FS getRootDirectories!!!");
 
 		ArrayList<Path> pathArr = new ArrayList<>();
 		pathArr.add(getRootPath());
@@ -97,7 +101,7 @@ public class CmisFileSystem extends FileSystem
 	public Iterable<FileStore> getFileStores()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS getFileStores!!!");
+		LOG.trace("IN FS getFileStores!!!");
 		List<FileStore> list = new LinkedList<FileStore>();
 		list.add(new CmisFileStore());
 		return list;
@@ -107,7 +111,7 @@ public class CmisFileSystem extends FileSystem
 	public Set<String> supportedFileAttributeViews()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS supportedFileAttributeViews!!!");
+		LOG.trace("IN FS supportedFileAttributeViews!!!");
 		return null;
 	}
 
@@ -115,14 +119,14 @@ public class CmisFileSystem extends FileSystem
 	public Path getPath(String first, String... more)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS getPath with first: " + first);
+		LOG.debug("IN FS getPath with first: " + first);
 		return cache.getCmisPath(first);
 	}
 
 	@Override
 	public PathMatcher getPathMatcher(String syntaxAndPattern)
 	{
-		System.out.println("IN FS getPathMatcher!!!");
+		LOG.trace("IN FS getPathMatcher!!!");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -131,7 +135,7 @@ public class CmisFileSystem extends FileSystem
 	public UserPrincipalLookupService getUserPrincipalLookupService()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS getUserPrincipalLookupService!!!");
+		LOG.trace("IN FS getUserPrincipalLookupService!!!");
 		return null;
 	}
 
@@ -139,7 +143,7 @@ public class CmisFileSystem extends FileSystem
 	public WatchService newWatchService() throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("IN FS newWatchService!!!");
+		LOG.trace("IN FS newWatchService!!!");
 		return null;
 	}
 

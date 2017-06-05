@@ -15,9 +15,13 @@ import java.util.Iterator;
 
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.FileableCmisObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CmisPath implements Path
 {
+	private static final Logger LOG = LoggerFactory.getLogger(CmisPath.class.getName());
+
 	private CmisFileSystem cmisFs;
 	private FileableCmisObject cmisObject;
 	private String path;
@@ -34,7 +38,7 @@ public class CmisPath implements Path
 	@Override
 	public FileSystem getFileSystem()
 	{
-		System.out.println("CmisPath: getFileSystem");
+		LOG.trace("CmisPath: getFileSystem");
 		return this.cmisFs;
 	}
 
@@ -42,14 +46,14 @@ public class CmisPath implements Path
 	public boolean isAbsolute()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: isAbsolute");
+		LOG.trace("CmisPath: isAbsolute");
 		return false;
 	}
 
 	@Override
 	public Path getRoot()
 	{
-		System.out.println("CmisPath: getRoot");
+		LOG.trace("CmisPath: getRoot");
 		return cmisFs.getPath("/");
 	}
 
@@ -57,14 +61,14 @@ public class CmisPath implements Path
 	public Path getFileName()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: getFileName");
+		LOG.trace("CmisPath: getFileName");
 		return this;
 	}
 
 	@Override
 	public Path getParent()
 	{
-		System.out.println("CmisPath: getParent");
+		LOG.trace("CmisPath: getParent");
 
 		CmisCache cmisCache = cmisFs.getCmisCache();
 		return cmisCache.getParentCmisPath(path);
@@ -74,7 +78,7 @@ public class CmisPath implements Path
 	public int getNameCount()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: getNameCount");
+		LOG.trace("CmisPath: getNameCount");
 		return 0;
 	}
 
@@ -82,7 +86,7 @@ public class CmisPath implements Path
 	public Path getName(int index)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: getName");
+		LOG.trace("CmisPath: getName");
 		return null;
 	}
 
@@ -90,7 +94,7 @@ public class CmisPath implements Path
 	public Path subpath(int beginIndex, int endIndex)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: subpath");
+		LOG.trace("CmisPath: subpath");
 		return null;
 	}
 
@@ -98,7 +102,7 @@ public class CmisPath implements Path
 	public boolean startsWith(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: startsWith1");
+		LOG.trace("CmisPath: startsWith1");
 		return false;
 	}
 
@@ -106,7 +110,7 @@ public class CmisPath implements Path
 	public boolean startsWith(String other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: startsWith2");
+		LOG.trace("CmisPath: startsWith2");
 		return false;
 	}
 
@@ -114,7 +118,7 @@ public class CmisPath implements Path
 	public boolean endsWith(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: endsWith1");
+		LOG.trace("CmisPath: endsWith1");
 		return false;
 	}
 
@@ -122,7 +126,7 @@ public class CmisPath implements Path
 	public boolean endsWith(String other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: endsWith2");
+		LOG.trace("CmisPath: endsWith2");
 		return false;
 	}
 
@@ -130,7 +134,7 @@ public class CmisPath implements Path
 	public Path normalize()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: normalize");
+		LOG.trace("CmisPath: normalize");
 		return null;
 	}
 
@@ -138,7 +142,7 @@ public class CmisPath implements Path
 	public Path resolve(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: resolve1");
+		LOG.trace("CmisPath: resolve1");
 		return null;
 	}
 
@@ -146,7 +150,7 @@ public class CmisPath implements Path
 	public Path resolve(String other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: resolve2");
+		LOG.trace("CmisPath: resolve2");
 		return null;
 	}
 
@@ -154,7 +158,7 @@ public class CmisPath implements Path
 	public Path resolveSibling(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: resolveSibling1");
+		LOG.trace("CmisPath: resolveSibling1");
 		return null;
 	}
 
@@ -162,7 +166,7 @@ public class CmisPath implements Path
 	public Path resolveSibling(String other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: resolveSibling2");
+		LOG.trace("CmisPath: resolveSibling2");
 		return null;
 	}
 
@@ -170,7 +174,7 @@ public class CmisPath implements Path
 	public Path relativize(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: relativize");
+		LOG.trace("CmisPath: relativize");
 		return null;
 	}
 
@@ -178,7 +182,7 @@ public class CmisPath implements Path
 	public URI toUri()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: toUri");
+		LOG.trace("CmisPath: toUri");
 		return null;
 	}
 
@@ -186,7 +190,7 @@ public class CmisPath implements Path
 	public Path toAbsolutePath()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: toAbsolutePath");
+		LOG.trace("CmisPath: toAbsolutePath");
 		return null;
 	}
 
@@ -194,7 +198,7 @@ public class CmisPath implements Path
 	public Path toRealPath(LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: toRealPath");
+		LOG.trace("CmisPath: toRealPath");
 		return null;
 	}
 
@@ -202,7 +206,7 @@ public class CmisPath implements Path
 	public File toFile()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: toFile");
+		LOG.trace("CmisPath: toFile");
 		return null;
 	}
 
@@ -210,7 +214,7 @@ public class CmisPath implements Path
 	public WatchKey register(WatchService watcher, Kind<?>[] events, Modifier... modifiers) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: register1");
+		LOG.trace("CmisPath: register1");
 		return null;
 	}
 
@@ -218,7 +222,7 @@ public class CmisPath implements Path
 	public WatchKey register(WatchService watcher, Kind<?>... events) throws IOException
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: register2");
+		LOG.trace("CmisPath: register2");
 		return null;
 	}
 
@@ -226,7 +230,7 @@ public class CmisPath implements Path
 	public Iterator<Path> iterator()
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: iterator");
+		LOG.trace("CmisPath: iterator");
 		return null;
 	}
 
@@ -234,7 +238,7 @@ public class CmisPath implements Path
 	public int compareTo(Path other)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("CmisPath: compareTo");
+		LOG.trace("CmisPath: compareTo");
 		return 0;
 	}
 
@@ -250,7 +254,7 @@ public class CmisPath implements Path
 
 	public Iterator<Path> getChildren()
 	{
-		System.out.println("CmisPath: getChildren()");
+		LOG.trace("CmisPath: getChildren()");
 		CmisCache cmisCache = this.cmisFs.getCmisCache();
 		return cmisCache.getChildren(this.path).values().iterator();
 	}
