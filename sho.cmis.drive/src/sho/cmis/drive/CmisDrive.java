@@ -161,13 +161,14 @@ public class CmisDrive
 		{
 			final NativityControl nativityControl = NativityControlUtil.getNativityControl();
 
+			nativityControl.connect();
+
 			nativityControl.addSocketOpenListener(new SocketOpenListener()
 			{
 
 				@Override
 				public void onSocketOpen()
 				{
-					// TODO Auto-generated method stub
 					System.out.println("Socket opened !!!!");
 
 					// nativityControl.addFavoritesPath(testFolder);
@@ -227,8 +228,6 @@ public class CmisDrive
 				}
 			});
 
-			nativityControl.connect();
-
 			nativityControl.addFavoritesPath(testFolder);
 
 			// Setting filter folders is required for Mac's Finder Sync plugin
@@ -247,23 +246,23 @@ public class CmisDrive
 				}
 			});
 
-			final int testIconId = 98786;
-
-			// FileIconControlCallback used by Windows and Mac
-			FileIconControlCallback fileIconControlCallback = new FileIconControlCallback()
-			{
-				@Override
-				public int getIconForFile(String path)
-				{
-					// return testIconId;
-					System.out.println("Get ICon For File: " + path);
-					return testIconId;
-				}
-			};
-
-			FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconControlCallback);
-
-			fileIconControl.enableFileIcons();
+			// final int testIconId = 98786;
+			//
+			// // FileIconControlCallback used by Windows and Mac
+			// FileIconControlCallback fileIconControlCallback = new FileIconControlCallback()
+			// {
+			// @Override
+			// public int getIconForFile(String path)
+			// {
+			// // return testIconId;
+			// System.out.println("Get ICon For File: " + path);
+			// return testIconId;
+			// }
+			// };
+			//
+			// FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconControlCallback);
+			//
+			// fileIconControl.enableFileIcons();
 
 			// String testFilePath = testFolder + "/squirrel.zip";
 
@@ -277,7 +276,7 @@ public class CmisDrive
 			// Used by Mac Finder Sync. This unique id can be set at runtime.
 			// testIconId = 1;
 
-			fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
+			// fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
 			// }
 			// else if (false)
 			// {
@@ -335,7 +334,9 @@ public class CmisDrive
 			if (allObservedFolders.isEmpty())
 				System.out.println("OF is EMPTY!!!!");
 		}
-		catch (Exception e)
+		catch (
+
+		Exception e)
 		{
 			System.out.println("Error: " + e);
 			LOG.error("Error: ", e);

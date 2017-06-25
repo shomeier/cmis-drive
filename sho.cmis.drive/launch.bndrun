@@ -20,7 +20,10 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
 	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-service)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.core-internal)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal)'
+	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
+	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.metatype)'
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.100.v20150529-1857,3.10.100.v20150529-1857]'
 -runsystempackages.objenesis: sun.misc
@@ -59,14 +62,14 @@
 	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
 	org.apache.felix.log;version='[1.0.1,1.0.2)',\
 	org.apache.felix.scr;version='[2.0.2,2.0.3)',\
-	org.eclipse.equinox.metatype;version='[1.4.100,1.4.101)',\
 	org.objectweb.asm.all.debug;version='[5.2.0,5.2.1)',\
 	org.ops4j.pax.logging.pax-logging-api;version='[1.10.0,1.10.1)',\
 	org.ops4j.pax.logging.pax-logging-service;version='[1.10.0,1.10.1)',\
-	org.osgi.service.metatype;version='[1.3.0,1.3.1)',\
 	sho.cmis.drive;version=snapshot,\
 	sho.cmis.fs;version=snapshot,\
 	stax2-api;version='[4.0.0,4.0.1)',\
 	woodstox-core-asl;version='[4.4.1,4.4.2)',\
+	org.osgi.service.event;version='[1.3.1,1.3.2)',\
 	org.eclipse.equinox.event;version='[1.3.100,1.3.101)',\
-	org.osgi.service.event;version='[1.3.1,1.3.2)'
+	sho.nativity.provider;version=snapshot,\
+	org.apache.felix.metatype;version='[1.1.2,1.1.3)'

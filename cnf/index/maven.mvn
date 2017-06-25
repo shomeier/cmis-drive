@@ -6,3 +6,6 @@ com.github.jnr:jffi:1.2.15
 com.github.jnr:jffi:jar:native:1.2.15
 
 com.google.jimfs:jimfs:1.0
+
+org.apache.felix:org.apache.felix.metatype:1.1.2
+
