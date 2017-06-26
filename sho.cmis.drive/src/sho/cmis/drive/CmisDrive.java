@@ -23,10 +23,8 @@ import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.liferay.nativity.control.MessageListener;
 import com.liferay.nativity.control.NativityControl;
 import com.liferay.nativity.control.NativityControlUtil;
-import com.liferay.nativity.control.NativityMessage;
 import com.liferay.nativity.listeners.SocketCloseListener;
 import com.liferay.nativity.listeners.SocketOpenListener;
 import com.liferay.nativity.modules.contextmenu.ContextMenuControl;
@@ -161,13 +159,14 @@ public class CmisDrive
 		{
 			final NativityControl nativityControl = NativityControlUtil.getNativityControl();
 
+			nativityControl.connect();
+
 			nativityControl.addSocketOpenListener(new SocketOpenListener()
 			{
 
 				@Override
 				public void onSocketOpen()
 				{
-					// TODO Auto-generated method stub
 					System.out.println("Socket opened !!!!");
 
 					// nativityControl.addFavoritesPath(testFolder);
@@ -184,7 +183,7 @@ public class CmisDrive
 						public int getIconForFile(String path)
 						{
 							// return testIconId;
-							System.out.println("Get ICon For File: " + path);
+							System.out.println("111111.....Get ICon For File: " + path);
 							return testIconId;
 						}
 					};
@@ -227,43 +226,28 @@ public class CmisDrive
 				}
 			});
 
-			nativityControl.connect();
-
 			nativityControl.addFavoritesPath(testFolder);
 
 			// Setting filter folders is required for Mac's Finder Sync plugin
 			nativityControl.setFilterFolder(testFolder);
 
-			/* File Icons */
-
-			nativityControl.registerMessageListener(new MessageListener(testFolder)
-			{
-
-				@Override
-				public NativityMessage onMessage(NativityMessage nativityMessage)
-				{
-					System.out.println("Received Message: " + nativityMessage);
-					return null;
-				}
-			});
-
-			final int testIconId = 98786;
-
-			// FileIconControlCallback used by Windows and Mac
-			FileIconControlCallback fileIconControlCallback = new FileIconControlCallback()
-			{
-				@Override
-				public int getIconForFile(String path)
-				{
-					// return testIconId;
-					System.out.println("Get ICon For File: " + path);
-					return testIconId;
-				}
-			};
-
-			FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconControlCallback);
-
-			fileIconControl.enableFileIcons();
+			// final int testIconId = 98786;
+			//
+			// // FileIconControlCallback used by Windows and Mac
+			// FileIconControlCallback fileIconControlCallback = new FileIconControlCallback()
+			// {
+			// @Override
+			// public int getIconForFile(String path)
+			// {
+			// // return testIconId;
+			// System.out.println("Get ICon For File: " + path);
+			// return testIconId;
+			// }
+			// };
+			//
+			// FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconControlCallback);
+			//
+			// fileIconControl.enableFileIcons();
 
 			// String testFilePath = testFolder + "/squirrel.zip";
 
@@ -277,7 +261,7 @@ public class CmisDrive
 			// Used by Mac Finder Sync. This unique id can be set at runtime.
 			// testIconId = 1;
 
-			fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
+			// fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "omn", Integer.toString(testIconId));
 			// }
 			// else if (false)
 			// {
@@ -335,7 +319,9 @@ public class CmisDrive
 			if (allObservedFolders.isEmpty())
 				System.out.println("OF is EMPTY!!!!");
 		}
-		catch (Exception e)
+		catch (
+
+		Exception e)
 		{
 			System.out.println("Error: " + e);
 			LOG.error("Error: ", e);
