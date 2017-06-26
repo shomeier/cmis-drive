@@ -185,7 +185,7 @@ public class CmisDrive
 						public int getIconForFile(String path)
 						{
 							// return testIconId;
-							System.out.println("Get ICon For File: " + path);
+							System.out.println("111111.....Get ICon For File: " + path);
 							return testIconId;
 						}
 					};
@@ -214,6 +214,36 @@ public class CmisDrive
 					// // Used by Mac Injector and Linux
 					// testIconId = fileIconControl.registerIcon("/Users/liferay/Desktop/testIcon.icns");
 					// }
+
+					FileIconControlCallback fileIconControlCallback2 = new FileIconControlCallback()
+					{
+						@Override
+						public int getIconForFile(String path)
+						{
+							// return testIconId;
+							System.out.println("22222....Get ICon For File: " + path);
+							return testIconId;
+						}
+					};
+
+					FileIconControl fileIconControl2 =
+						FileIconControlUtil.getFileIconControl(nativityControl, fileIconControlCallback2);
+
+					fileIconControl2.enableFileIcons();
+
+					// String testFilePath = testFolder + "/squirrel.zip";
+
+					// if (OSDetector.isWindows())
+					// {
+					// // This id is determined when building the DLL
+					// testIconId = 1;
+					// }
+					// else if (OSDetector.isMinimumAppleVersion(OSDetector.MAC_YOSEMITE_10_10))
+					// {
+					// Used by Mac Finder Sync. This unique id can be set at runtime.
+					// testIconId = 1;
+
+					fileIconControl2.registerIconWithId(OVERLAY_OMN_ICON, "omn", Integer.toString(testIconId));
 				}
 			});
 

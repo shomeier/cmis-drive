@@ -1,0 +1,13 @@
+#
+# SHO CMIS DRIVE NATIVITY CONSUMER	DEBUG LAUNCH SPECFICATION 
+#
+
+-include: ~sho.cmis.drive.nativity.consumer.bndrun
+
+-runrequires.debug:  \
+	${debug-bundles}
+
+-runtrace: true
+
+-runbundles: \
+	${error;Resolve first}
