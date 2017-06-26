@@ -23,7 +23,8 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly:org.apache.aries.spifly.weaver-internal)',\
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
 	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)',\
-	osgi.identity;filter:='(osgi.identity=org.apache.felix.metatype)'
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.metatype)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.drive.nativity.consumer)'
 -runee: JavaSE-1.8
 -runfw: org.eclipse.osgi;version='[3.10.100.v20150529-1857,3.10.100.v20150529-1857]'
 -runsystempackages.objenesis: sun.misc
@@ -72,4 +73,5 @@
 	org.osgi.service.event;version='[1.3.1,1.3.2)',\
 	org.eclipse.equinox.event;version='[1.3.100,1.3.101)',\
 	sho.nativity.provider;version=snapshot,\
-	org.apache.felix.metatype;version='[1.1.2,1.1.3)'
+	org.apache.felix.metatype;version='[1.1.2,1.1.3)',\
+	sho.cmis.drive.nativity.consumer;version=snapshot

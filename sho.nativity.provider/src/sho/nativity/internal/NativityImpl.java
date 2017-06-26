@@ -1,21 +1,18 @@
 package sho.nativity.internal;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.liferay.nativity.control.NativityControl;
 import com.liferay.nativity.control.NativityControlUtil;
+import com.liferay.nativity.modules.fileicon.FileIconControl;
 import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
+import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 /**
  *
@@ -30,11 +27,11 @@ public class NativityImpl
 
 	private static final Logger LOG = LoggerFactory.getLogger(NativityImpl.class.getName());
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY)
-	private AtomicReference<FileIconControlCallback> fileIconCBs = new AtomicReference<>();
+	@Reference
+	private FileIconControlCallback fileIconCB;
 
 	@Activate
-	void activate(Config config)
+	private void activate(Config config)
 	{
 		LOG.trace("Activating component: {} ...", COMPONENT_NAME);
 		setupNativity(config);
@@ -51,6 +48,9 @@ public class NativityImpl
 
 		nativityControl.connect();
 		nativityControl.setFilterFolders(filterFolders);
+
+		FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, this.fileIconCB);
+		fileIconControl.enableFileIcons();
 
 	}
 

@@ -1,5 +1,6 @@
 package sho.cmis.drive.nativity.icon.internal;
 
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,17 @@ public class CmisDriveFileIcon implements FileIconControlCallback
 
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDriveFileIcon.class.getName());
 
+	@Activate
+	private void activate(Config config)
+	{
+		LOG.trace("Activating component: {} ...", COMPONENT_NAME);
+		LOG.debug("Activated component: {}", COMPONENT_NAME);
+	}
+
 	@Override
 	public int getIconForFile(String path)
 	{
-		return 0;
+		return 1;
 	}
 
 }
