@@ -1,18 +1,31 @@
 package sho.nativity.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.liferay.nativity.control.NativityControl;
 import com.liferay.nativity.control.NativityControlUtil;
+import com.liferay.nativity.listeners.SocketOpenListener;
+import com.liferay.nativity.modules.contextmenu.ContextMenuControl;
+import com.liferay.nativity.modules.contextmenu.ContextMenuControlCallback;
+import com.liferay.nativity.modules.contextmenu.ContextMenuControlUtil;
+import com.liferay.nativity.modules.contextmenu.model.ContextMenuItem;
 import com.liferay.nativity.modules.fileicon.FileIconControl;
 import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
+
+import sho.nativity.ContextMenuItemProvider;
 
 /**
  *
@@ -29,6 +42,20 @@ public class NativityImpl
 
 	@Reference
 	private FileIconControlCallback fileIconCB;
+
+	private CopyOnWriteArrayList<ContextMenuItemProvider> contextMenuItemProviders =
+		new CopyOnWriteArrayList<ContextMenuItemProvider>();
+
+	@Reference(cardinality = ReferenceCardinality.AT_LEAST_ONE, policy = ReferencePolicy.DYNAMIC)
+	void addContextMenuItemProvider(ContextMenuItemProvider contextMenuItemProvider)
+	{
+		contextMenuItemProviders.add(contextMenuItemProvider);
+	}
+
+	void removeContextMenuItemProvider(ContextMenuItemProvider contextMenuItemProvider)
+	{
+		contextMenuItemProviders.remove(contextMenuItemProvider);
+	}
 
 	@Activate
 	private void activate(Config config)
@@ -47,11 +74,39 @@ public class NativityImpl
 		}
 
 		nativityControl.connect();
-		nativityControl.setFilterFolders(filterFolders);
 
-		FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, this.fileIconCB);
-		fileIconControl.enableFileIcons();
+		nativityControl.addSocketOpenListener(new SocketOpenListener()
+		{
 
+			@Override
+			public void onSocketOpen()
+			{
+				LOG.debug("Nativity - Socket Opened");
+				nativityControl.setFilterFolders(filterFolders);
+				FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconCB);
+				fileIconControl.enableFileIcons();
+
+				ContextMenuControlCallback contextMenuControlCB = new ContextMenuControlCallback()
+				{
+					@Override
+					public List<ContextMenuItem> getContextMenuItems(String[] paths)
+					{
+
+						List<ContextMenuItem> contextMenuItems = new ArrayList<ContextMenuItem>();
+
+						for (ContextMenuItemProvider contextMenuItemProvider : contextMenuItemProviders)
+						{
+							contextMenuItems.addAll(contextMenuItemProvider.getContextMenuItems(paths));
+						}
+
+						return contextMenuItems;
+					}
+				};
+
+				ContextMenuControl contextMenuControl =
+					ContextMenuControlUtil.getContextMenuControl(nativityControl, contextMenuControlCB);
+			}
+		});
 	}
 
 }

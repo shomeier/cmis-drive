@@ -87,7 +87,8 @@ public class CmisDrive
 						try
 						{
 							javafs();
-							nativity();
+							// TODO: Handle Nativity over own OSGi Bundle
+							// nativity();
 						}
 						catch (Exception e)
 						{
