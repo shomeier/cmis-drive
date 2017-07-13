@@ -13,7 +13,8 @@ Bundle-Description: 				\
 	osgi.enroute.base.api;version=2.0,\
 	slf4j.api; version=1.7.5,\
 	liferay-nativity; version=latest,\
-	sho.nativity.provider;version=latest
+	sho.nativity.provider;version=latest,\
+	de.apollon.cmis.client.chemistry.opencmis.wrap; version=latest
 
 -testpath: \
 	osgi.enroute.junit.wrapper;version=4.12

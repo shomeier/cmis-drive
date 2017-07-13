@@ -7,6 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -38,6 +40,8 @@ public class NativityImpl
 
 	static final String COMPONENT_NAME = "sho.nativity";
 
+	private static final String OVERLAY_CMIS_ICON = System.getProperty("icon");
+
 	private static final Logger LOG = LoggerFactory.getLogger(NativityImpl.class.getName());
 
 	@Reference
@@ -61,8 +65,24 @@ public class NativityImpl
 	private void activate(Config config)
 	{
 		LOG.trace("Activating component: {} ...", COMPONENT_NAME);
-		setupNativity(config);
+		modified(config);
 		LOG.debug("Activated component: {}", COMPONENT_NAME);
+	}
+
+	@Modified
+	public void modified(Config config)
+	{
+		LOG.debug("Modifying component: {} ...", COMPONENT_NAME);
+		setupNativity(config);
+		LOG.debug("Modified component: {}", COMPONENT_NAME);
+	}
+
+	@Deactivate
+	public void deactivate()
+	{
+		LOG.debug("Deactivating component: {} ...", COMPONENT_NAME);
+		nativityControl.disconnect();
+		LOG.debug("Deactivated component: {}", COMPONENT_NAME);
 	}
 
 	private void setupNativity(final Config config)
@@ -84,6 +104,7 @@ public class NativityImpl
 				LOG.debug("Nativity - Socket Opened");
 				nativityControl.setFilterFolders(filterFolders);
 				FileIconControl fileIconControl = FileIconControlUtil.getFileIconControl(nativityControl, fileIconCB);
+				fileIconControl.registerIconWithId(OVERLAY_CMIS_ICON, "label", "1");
 				fileIconControl.enableFileIcons();
 
 				ContextMenuControlCallback contextMenuControlCB = new ContextMenuControlCallback()
@@ -105,6 +126,7 @@ public class NativityImpl
 
 				ContextMenuControl contextMenuControl =
 					ContextMenuControlUtil.getContextMenuControl(nativityControl, contextMenuControlCB);
+				contextMenuControl.registerIcon(OVERLAY_CMIS_ICON, "1");
 			}
 		});
 	}
