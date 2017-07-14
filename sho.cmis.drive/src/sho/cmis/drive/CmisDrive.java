@@ -7,16 +7,23 @@ import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import org.apache.chemistry.opencmis.client.api.OperationContext;
+import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
@@ -45,9 +52,10 @@ public class CmisDrive
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDrive.class.getName());
 
-	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+	private final BundleContext bc = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
-	private final static String USE_SERVER = "APLN";
+	// private final static String USE_SERVER = "APLN";
+	private final static String USE_SERVER = "ALF";
 
 	private static final String ALFRESCO_URL =
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
@@ -59,51 +67,22 @@ public class CmisDrive
 	// private static final String OVERLAY_CMIS_ICON = "./img/cmis-wb-icon.png.icns";
 	private static final String OVERLAY_CMIS_ICON = System.getProperty("icon");
 
-	// | private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
+	// private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 	private static final String MOUNT_POINT = "/Volumes/Shorty_JetDrive_1/mount";
 	// private static final String CMIS_MOUNT_POINT_URI = "cmis:///Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 	private static final String CMIS_URI = "cmis:///";
 
 	private static final boolean READONLY = true;
 
+	@Reference
+	SessionFactory sessionFactory;
+
+	Session cmisSession;
+
 	@Activate
 	public void activate()
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
-
-		// we need to wait for the CMIS Filesystem Bundle to be started
-		Dictionary<String, Object> ht = new Hashtable<String, Object>();
-		ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
-		context.registerService(EventHandler.class.getName(), new EventHandler()
-		{
-			@Override
-			public void handleEvent(Event event)
-			{
-				System.out.println("handleEvent: " + event);
-				if (event.containsProperty("bundle.symbolicName"))
-				{
-					if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
-					{
-						try
-						{
-							javafs();
-							// TODO: Handle Nativity over own OSGi Bundle
-							// nativity();
-						}
-						catch (Exception e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}, ht);
-		LOG.debug("Activated component: {}", COMPONENT_NAME);
-	}
-
-	private void javafs() throws Exception
-	{
 
 		ServiceLoader<FileSystemProvider> load = java.util.ServiceLoader.load(FileSystemProvider.class);
 		for (FileSystemProvider fileSystemProvider : load)
@@ -134,7 +113,61 @@ public class CmisDrive
 		}
 		config.put(CmisConfig.CACHE_PATH_OMIT, "false");
 
-		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), config);
+		OperationContext opCtx = new OperationContextImpl();
+		Set<String> filter = new HashSet<>();
+		filter.add("cmis:baseTypeId");
+		filter.add("cmis:objectId");
+		filter.add("cmis:objectTypeId");
+		filter.add("cmis:name");
+		filter.add("cmis:contentStreamLength");
+		filter.add("cmis:contentStreamFileName");
+		filter.add("cmis:versionLabel");
+		filter.add("cmis:versionSeriesId");
+		opCtx.setFilter(filter);
+		if (USE_SERVER.equalsIgnoreCase("APLN"))
+			cmisSession = sessionFactory.createSession(config);
+		else
+			cmisSession = sessionFactory.getRepositories(config).get(0).createSession();
+		// register CMIS Session as OSGi Service
+		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
+
+		// we need to wait for the CMIS Filesystem Bundle to be started
+		Dictionary<String, Object> ht = new Hashtable<String, Object>();
+		ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
+		bc.registerService(EventHandler.class.getName(), new EventHandler()
+		{
+			@Override
+			public void handleEvent(Event event)
+			{
+				System.out.println("handleEvent: " + event);
+				if (event.containsProperty("bundle.symbolicName"))
+				{
+					if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
+					{
+						try
+						{
+							javafs();
+							// TODO: Handle Nativity over own OSGi Bundle
+							// nativity();
+						}
+						catch (Exception e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}, ht);
+		LOG.debug("Activated component: {}", COMPONENT_NAME);
+	}
+
+	private void javafs() throws Exception
+	{
+		Map<String, Object> fsConfig = new HashMap<>();
+		fsConfig.put("CmisSession", cmisSession);
+
+		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), fsConfig);
 		// FileSystem fs = Jimfs.newFileSystem();
 		LOG.info("FS separator: " + fs.getSeparator());
 

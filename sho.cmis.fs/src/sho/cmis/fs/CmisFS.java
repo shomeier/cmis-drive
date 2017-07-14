@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CmisFS
 {
-	public static FileSystem newFileSystem(URI uri, Map<String, String> config)
+	public static FileSystem newFileSystem(URI uri, Map<String, ?> config)
 	{
 
 		// ImmutableMap<String, ?> env = ImmutableMap.of(CONFIG_KEY, config);

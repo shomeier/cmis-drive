@@ -17,22 +17,16 @@ import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.chemistry.opencmis.client.api.OperationContext;
-import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import sho.cmis.fs.CmisConfig;
 
 public class CmisFileSystemProvider extends FileSystemProvider
 {
@@ -40,7 +34,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 
 	private final BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
-	private SessionFactory sessionFactory;
+	// private SessionFactory sessionFactory;
 
 	private Map<URI, FileSystem> filesystems = new HashMap<>();
 
@@ -75,25 +69,26 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public FileSystem newFileSystem(URI uri, Map<String, ?> env) throws IOException
 	{
 		LOG.trace("IN FSP newFileSystem(URI uri, Map<String, ?> env)!!!");
-		ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
-		serviceTracker.open();
-		SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
-		// Session session = sessionFactory.createSession((Map<String, String>) env);
-		Session session = null;
-
-		// if repository id is set we can directly create the session ...
-		if (env.containsKey(CmisConfig.REPOSITORY_ID))
-		{
-			session = sessionFactory.createSession((Map<String, String>) env);
-
-			// otherwise we just take the first repository ...
-		}
-		else
-		{
-			List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
-			session = repositories.get(0).createSession();
-
-		}
+		// ServiceTracker<Object, Object> serviceTracker = new ServiceTracker<>(context, SessionFactory.class.getName(), null);
+		// serviceTracker.open();
+		// SessionFactory sessionFactory = ( (SessionFactory) serviceTracker.getService() );
+		// // Session session = sessionFactory.createSession((Map<String, String>) env);
+		// Session session = null;
+		//
+		// // if repository id is set we can directly create the session ...
+		// if (env.containsKey(CmisConfig.REPOSITORY_ID))
+		// {
+		// session = sessionFactory.createSession((Map<String, String>) env);
+		//
+		// // otherwise we just take the first repository ...
+		// }
+		// else
+		// {
+		// List<Repository> repositories = sessionFactory.getRepositories((Map<String, String>) env);
+		// session = repositories.get(0).createSession();
+		//
+		// }
+		Session session = (Session) env.get("CmisSession");
 
 		OperationContext opCtx = new OperationContextImpl();
 		opCtx.setCacheEnabled(true);
