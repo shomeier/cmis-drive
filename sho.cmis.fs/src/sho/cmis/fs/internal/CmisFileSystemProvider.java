@@ -124,6 +124,13 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
 		throws IOException
 	{
+		System.out.println("IN FSP newByteChannel with path: " + path);
+		if (path instanceof CmisPath)
+			System.out.println("IN FSP IS CMISPAth");
+		else
+			System.out.println("IN FSP IS NOOOT CMISPAth");
+		CmisPath cmisPath = (CmisPath) path;
+		System.out.println("IN FSP FULL CMISPATH" + cmisPath.getFullPath());
 		LOG.trace("IN FSP newByteChannel with path: " + path);
 
 		for (OpenOption option : options)
@@ -136,7 +143,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 			LOG.trace("attrs: " + fileAttribute);
 		}
 
-		return ( (CmisFileSystem) path.getFileSystem() ).getCmisCache().getContent(path);
+		return ( (CmisFileSystem) path.getFileSystem() ).getCmisCache().getContent((CmisPath) path);
 	}
 
 	@Override

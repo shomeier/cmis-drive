@@ -123,11 +123,13 @@ public class CmisDrive
 		filter.add("cmis:contentStreamFileName");
 		filter.add("cmis:versionLabel");
 		filter.add("cmis:versionSeriesId");
-		opCtx.setFilter(filter);
+		// opCtx.setFilter(filter);
+		opCtx.setIncludePathSegments(true);
 		if (USE_SERVER.equalsIgnoreCase("APLN"))
 			cmisSession = sessionFactory.createSession(config);
 		else
 			cmisSession = sessionFactory.getRepositories(config).get(0).createSession();
+		cmisSession.setDefaultContext(opCtx);
 		// register CMIS Session as OSGi Service
 		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
 

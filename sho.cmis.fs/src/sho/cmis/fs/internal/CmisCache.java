@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -34,6 +33,10 @@ public class CmisCache
 
 	private CmisPath rootFolder;
 
+	// key: path (e.g. '/' for root folder)
+	// value: a map with
+	// key: path (e.g. '/mySubfolder')
+	// value: CmisPath Object
 	private Map<String, Map<String, Path>> childrenCache;
 
 	CmisCache(Session session)
@@ -92,9 +95,11 @@ public class CmisCache
 		return retVal;
 	}
 
-	Path getCmisPath(Path path)
+	Path getCmisPath(CmisPath path)
 	{
-		return getCmisPath(getFullPath(path));
+		String fullPath = getFullPath(path);
+		Path cmisPath = getCmisPath(fullPath);
+		return cmisPath;
 	}
 
 	Path getParentCmisPath(String path)
@@ -113,7 +118,7 @@ public class CmisCache
 		return rootFolder;
 	}
 
-	SeekableByteChannel getContent(Path path) throws IOException
+	SeekableByteChannel getContent(CmisPath path) throws IOException
 	{
 		CmisPath cmisPath = (CmisPath) getCmisPath(path);
 		FileableCmisObject cmisObject = cmisPath.getCmisObject();
@@ -142,9 +147,12 @@ public class CmisCache
 		}
 	}
 
-	private String getFullPath(Path path)
+	private String getFullPath(CmisPath path)
 	{
-		List<String> paths = ( (CmisPath) path ).getCmisObject().getPaths();
-		return paths.get(0);
+		// CmisFileableObject.getPaths() should not be called since it always results in a getParent remote call for Documents
+		// for Folder we can avoid another remote call by Including PathsSegments in OpCtx
+		// List<String> paths = ( (CmisPath) path ).getCmisObject().getPaths();
+		// return paths.get(0);
+		return path.getFullPath();
 	}
 }

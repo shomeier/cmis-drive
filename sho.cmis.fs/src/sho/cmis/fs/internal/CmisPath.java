@@ -24,15 +24,20 @@ public class CmisPath implements Path
 
 	private CmisFileSystem cmisFs;
 	private FileableCmisObject cmisObject;
-	private String path;
+	private String fullPath;
 
 	private ArrayList<Path> childrenCache;
 
-	CmisPath(CmisFileSystem cmisFs, String path, CmisObject cmisObject)
+	CmisPath(CmisFileSystem cmisFs, String fullPath, CmisObject cmisObject)
 	{
 		this.cmisFs = cmisFs;
-		this.path = path;
+		this.fullPath = fullPath;
 		this.cmisObject = (FileableCmisObject) cmisObject;
+	}
+
+	public String getFullPath()
+	{
+		return fullPath;
 	}
 
 	@Override
@@ -71,7 +76,7 @@ public class CmisPath implements Path
 		LOG.trace("CmisPath: getParent");
 
 		CmisCache cmisCache = cmisFs.getCmisCache();
-		return cmisCache.getParentCmisPath(path);
+		return cmisCache.getParentCmisPath(fullPath);
 	}
 
 	@Override
@@ -244,7 +249,7 @@ public class CmisPath implements Path
 
 	public String getName()
 	{
-		return Util.getName(this.path);
+		return Util.getName(this.fullPath);
 	}
 
 	public FileableCmisObject getCmisObject()
@@ -256,7 +261,7 @@ public class CmisPath implements Path
 	{
 		LOG.trace("CmisPath: getChildren()");
 		CmisCache cmisCache = this.cmisFs.getCmisCache();
-		return cmisCache.getChildren(this.path).values().iterator();
+		return cmisCache.getChildren(this.fullPath).values().iterator();
 	}
 
 	public String toString()
