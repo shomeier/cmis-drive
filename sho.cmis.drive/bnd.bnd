@@ -1,9 +1,6 @@
 #	org.ops4j.pax.logging.pax-logging-api;version=latest;repo="Central"
 -buildpath: \
-	osgi.annotation; version=6.0.1,\
-	osgi.core; version=6.0,\
-	osgi.cmpn; version=6.0,\
-	slf4j.api; version=1.7.5,\
+	osgi.enroute.base.api; version=latest,\
 	javafs; version=latest,\
 	liferay-nativity; version=latest,\
 	com.google.jimfs; version=latest,\

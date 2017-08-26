@@ -1,5 +1,13 @@
-org.apache.felix:org.apache.felix.framework:5.4.0
+org.osgi:osgi.enroute.base.api:2.0.0
 
+org.osgi:osgi.enroute.junit.wrapper:4.12.0
+org.apache.servicemix.bundles:org.apache.servicemix.bundles.hamcrest:1.3_1
+org.mockito:mockito-core:2.8.47
+net.bytebuddy:byte-buddy:1.7.1
+net.bytebuddy:byte-buddy-agent:1.7.1
+org.objenesis:objenesis:2.6
+
+org.apache.felix:org.apache.felix.framework:5.4.0
 org.apache.felix:org.apache.felix.fileinstall:3.6.0
 org.apache.felix:org.apache.felix.gogo.shell:1.0.0
 org.apache.felix:org.apache.felix.gogo.command:1.0.0
