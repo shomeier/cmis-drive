@@ -23,10 +23,12 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +49,8 @@ import co.paralleluniverse.javafs.JavaFS;
 import sho.cmis.fs.CmisConfig;
 import sho.cmis.fs.CmisFS;
 
-@Component(immediate = true)
+@Component(name = CmisDrive.COMPONENT_NAME, immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
+@Designate(ocd = CmisDriveConfig.class)
 public class CmisDrive
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDrive.class.getName());
@@ -61,7 +64,7 @@ public class CmisDrive
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
 	private static final String APLN_URL = "http://localhost:8083/cmisBrowser";
 
-	private static final String COMPONENT_NAME = "sho.cmis.drive";
+	static final String COMPONENT_NAME = "sho.cmis.drive";
 
 	private static final String OVERLAY_OMN_ICON = "/Volumes/Shorty_JetDrive_1/tmp/omnIcon.icns";
 	// private static final String OVERLAY_CMIS_ICON = "./img/cmis-wb-icon.png.icns";
@@ -80,7 +83,7 @@ public class CmisDrive
 	Session cmisSession;
 
 	@Activate
-	public void activate()
+	public void activate(final CmisDriveConfig config)
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
 
@@ -95,23 +98,14 @@ public class CmisDrive
 			LOG.info("FSP: " + fsr.getScheme());
 		}
 
-		Map<String, String> config = new HashMap<>();
-		config.put(CmisConfig.BINDING_TYPE, "browser");
-		if (USE_SERVER.equals("APLN"))
-		{
-			config.put(CmisConfig.BROWSER_URL, APLN_URL);
-			config.put(CmisConfig.USER, "test");
-			config.put(CmisConfig.PASSWORD, "test");
-			config.put(CmisConfig.REPOSITORY_ID, "Artikelbilder");
-
-		}
-		else
-		{
-			config.put(CmisConfig.BROWSER_URL, ALFRESCO_URL);
-			config.put(CmisConfig.USER, "admin");
-			config.put(CmisConfig.PASSWORD, "admin");
-		}
-		config.put(CmisConfig.CACHE_PATH_OMIT, "false");
+		Map<String, String> envConfig = new HashMap<>();
+		envConfig.put(CmisConfig.BINDING_TYPE, "browser");
+		envConfig.put(CmisConfig.BROWSER_URL, config.url());
+		envConfig.put(CmisConfig.USER, config.user());
+		envConfig.put(CmisConfig.PASSWORD, config.password());
+		if (config.repository_id() != null)
+			envConfig.put(CmisConfig.REPOSITORY_ID, config.repository_id());
+		envConfig.put(CmisConfig.CACHE_PATH_OMIT, "false");
 
 		OperationContext opCtx = new OperationContextImpl();
 		Set<String> filter = new HashSet<>();
@@ -125,10 +119,10 @@ public class CmisDrive
 		filter.add("cmis:versionSeriesId");
 		// opCtx.setFilter(filter);
 		opCtx.setIncludePathSegments(true);
-		if (USE_SERVER.equalsIgnoreCase("APLN"))
-			cmisSession = sessionFactory.createSession(config);
+		if (config.repository_id() != null)
+			cmisSession = sessionFactory.createSession(envConfig);
 		else
-			cmisSession = sessionFactory.getRepositories(config).get(0).createSession();
+			cmisSession = sessionFactory.getRepositories(envConfig).get(0).createSession();
 		cmisSession.setDefaultContext(opCtx);
 		// register CMIS Session as OSGi Service
 		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
