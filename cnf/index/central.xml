@@ -7,7 +7,9 @@
 	<artifactId>central</artifactId>
 	<version>0.0.0</version>
 
+<!--
 	<packaging>pom</packaging>
+-->
 
 	<properties>
 		<jackson.version>2.8.1</jackson.version>

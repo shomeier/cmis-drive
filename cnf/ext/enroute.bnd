@@ -20,16 +20,16 @@ test-cases: 			${classes;NAMED;*Test}
 -releaserepo:           Release
 
 -plugin.4.Central:  \
-	aQute.bnd.repository.maven.pom.provider.BndPomRepository; \
-		snapshotUrls=https://oss.sonatype.org/content/groups/osgi; \
-		releaseUrls=https://repo1.maven.org/maven2/; \
-		pom=${build}/index/central.xml; \
+	aQute.bnd.repository.maven.provider.MavenBndRepository; \
+		releaseUrl=https://repo1.maven.org/maven2/; \
+		snapshotUrl=https://oss.sonatype.org/content/groups/osgi; \
+		index=${build}/index/central.mvn; \
 		name=Central; \
 		location=${build}/cache/enroute-central.xml
 
 -plugin.5.Maven: \
 	aQute.bnd.repository.maven.provider.MavenBndRepository; \
-        releaseUrl=http://mm-maven-repo01.mum.intra/artifactory/repo; \
+        releaseUrl=https://repo1.maven.org/maven2/; \
         snapshotUrl=https://oss.sonatype.org/content/repositories/osgi/; \
         index=${build}/index/maven.mvn; \
         name=Maven

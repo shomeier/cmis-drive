@@ -6,3 +6,6 @@ Bundle-Version: 0.1.0.${tstamp}
 
 eclipse.fw:					org.eclipse.osgi;version="[3.10.2.v20150203-1939,3.10.2.v20150203-1939]"
 felix.fw:					org.apache.felix.framework;version="[5.4.0,5.4.0]"
+
+# See also: http://bnd.bndtools.org/instructions/connection-settings.html
+-connection-settings: false

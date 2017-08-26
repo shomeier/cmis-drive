@@ -54,8 +54,8 @@ public class CmisDrive
 
 	private final BundleContext bc = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
-	// private final static String USE_SERVER = "APLN";
-	private final static String USE_SERVER = "ALF";
+	private final static String USE_SERVER = "APLN";
+	// private final static String USE_SERVER = "ALF";
 
 	private static final String ALFRESCO_URL =
 		"https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser";
