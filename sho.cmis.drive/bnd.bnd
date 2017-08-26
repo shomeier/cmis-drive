@@ -10,8 +10,7 @@
 -testpath: \
 	${junit}
 
-Private-Package: \
-	sho.cmis.drive
+Private-Package: sho.cmis.drive.internal
 
 SPI-Consumer: *
 #SPI-Consumer: java.util.ServiceLoader#load(java.lang.Class[java.nio.file.spi.FileSystemProvider])

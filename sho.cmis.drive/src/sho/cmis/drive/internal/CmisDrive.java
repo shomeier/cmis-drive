@@ -1,4 +1,4 @@
-package sho.cmis.drive;
+package sho.cmis.drive.internal;
 
 import java.net.URI;
 import java.nio.file.FileSystem;
@@ -50,7 +50,7 @@ import sho.cmis.fs.CmisConfig;
 import sho.cmis.fs.CmisFS;
 
 @Component(name = CmisDrive.COMPONENT_NAME, immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
-@Designate(ocd = CmisDriveConfig.class)
+@Designate(ocd = CmisDriveCfg.class)
 public class CmisDrive
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisDrive.class.getName());
@@ -83,7 +83,7 @@ public class CmisDrive
 	Session cmisSession;
 
 	@Activate
-	public void activate(final CmisDriveConfig config)
+	public void activate(final CmisDriveCfg config)
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
 

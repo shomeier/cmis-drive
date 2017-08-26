@@ -1,11 +1,11 @@
-package sho.cmis.drive;
+package sho.cmis.drive.internal;
 
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.osgi.service.metatype.annotations.Option;
 
-@ObjectClassDefinition(name = CmisDriveConfig.CONFIG_NAME, description = "Configuration for CMIS Drive")
-@interface CmisDriveConfig
+@ObjectClassDefinition(name = CmisDriveCfg.CONFIG_NAME, description = "Configuration for CMIS Drive")
+@interface CmisDriveCfg
 {
 	static final String CONFIG_NAME = "CMIS Drive Config";
 
