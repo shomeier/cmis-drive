@@ -10,12 +10,16 @@ Bundle-Description: 				\
 
 
 -buildpath:  \
-	osgi.enroute.base.api;version=2.0,\
-	slf4j.api; version=1.7.5,\
-	liferay-nativity; version=latest,\
+	osgi.enroute.base.api;version=latest,\
+	slf4j.api;version=latest,\
+	liferay-nativity;version=latest,\
 	sho.nativity.provider;version=latest,\
-	de.apollon.cmis.client.chemistry.opencmis.wrap; version=latest
+	de.apollon.cmis.client.chemistry.opencmis.wrap;version=latest
+#	org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client;version=latest
 
 -testpath: \
-	osgi.enroute.junit.wrapper;version=4.12
+	${junit}
 
+Private-Package: \
+	sho.cmis.drive.nativity.icon.internal,\
+	sho.cmis.drive.nativity.menu.internal

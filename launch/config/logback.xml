@@ -1,0 +1,47 @@
+<configuration debug="true">
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder
+			by default -->
+		<encoder>
+			<pattern>
+				%d{yyyy-MM-dd_HH:mm:ss.SSS} [%level] %logger{50} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>log/nativity-log.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>log/nativity-log.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>
+				%d{yyyy-MM-dd_HH:mm:ss.SSS} [%level] %logger{50} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<root level="TRACE">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE"/>
+	</root>
+
+<!--
+	<logger name="de.apollon" level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger name="org.eclipse.jetty" level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+-->
+
+</configuration>

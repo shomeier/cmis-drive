@@ -1,5 +1,5 @@
 junit:\
-	osgi.enroute.junit.wrapper;version=latest,\
+	osgi.enroute.junit.wrapper;version=latest;repo="Distro",\
 	org.apache.servicemix.bundles.hamcrest;version=latest
 
 test-reports: test-results

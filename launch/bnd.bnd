@@ -1,0 +1,39 @@
+#-nobundles: true
+#-nojunit: true
+#-nojunitosgi: true
+
+-runproperties.shared: \
+	logbackConfigFile=config/logback.xml,\
+	felix.fileinstall.noInitialDelay=true,\
+	felix.fileinstall.poll=100,\
+	felix.fileinstall.log.level=3,\
+	felix.fileinstall.dir=./config,\
+	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns
+
+-runtrace: true
+
+-runsystempackages.objenesis: sun.misc
+
+#	${debug-bundles}
+-runrequires.shared: \
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.configadmin)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.runtime)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.metatype)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.drive)',\
+	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-api)',\
+	osgi.identity;filter:='(osgi.identity=org.ops4j.pax.logging.pax-logging-service)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly.dynamic.bundle)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.drive.nativity.consumer)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
+	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)'
+
+-runee: JavaSE-1.7
+
+-runblacklist: osgi.identity;filter:='(osgi.identity=org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client)'
+
+# Prevent from release by setting releaserepo to nothing
+-releaserepo:

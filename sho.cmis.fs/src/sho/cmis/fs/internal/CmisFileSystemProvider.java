@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.slf4j.Logger;
@@ -90,7 +89,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		// }
 		Session session = (Session) env.get("CmisSession");
 
-		OperationContext opCtx = new OperationContextImpl();
+		OperationContext opCtx = session.createOperationContext();
 		opCtx.setCacheEnabled(true);
 		session.setDefaultContext(opCtx);
 

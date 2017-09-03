@@ -10,7 +10,7 @@ javac.target: 			1.7
 -runee:					JavaSE-1.7
 
 Service-Component: 		*
--dsannotations: 		*
+-dsannotations: 			*
 -metatypeannotations:	*
 -contract:				*
 
@@ -18,6 +18,19 @@ Service-Component: 		*
 test-cases: 			${classes;NAMED;*Test}
 -resolve.effective:		resolve, active
 -releaserepo:           Release
+
+-plugin.1.Local: \
+        aQute.bnd.deployer.repository.LocalIndexedRepo; \
+            name                =       Local ; \
+            pretty              =       true ; \
+            local               =       ${build}/local
+
+-plugin.2.apln = \
+    	aQute.bnd.repository.maven.provider.MavenBndRepository; \
+        releaseUrl=https://maven.pd.apollon.de/repository/repo/; \
+        snapshotUrl=https://maven.pd.apollon.de/repository/repo/; \
+        index=${build}/index/apln.mvn; \
+        name=apln
 
 -plugin.4.Central:  \
 	aQute.bnd.repository.maven.provider.MavenBndRepository; \
@@ -34,11 +47,6 @@ test-cases: 			${classes;NAMED;*Test}
         index=${build}/index/maven.mvn; \
         name=Maven
 
--plugin.6.Local: \
-        aQute.bnd.deployer.repository.LocalIndexedRepo; \
-            name                =       Local ; \
-            pretty              =       true ; \
-            local               =       ${build}/local
 
 #-plugin.7.EclipseBndtools: \
 #		aQute.bnd.repository.osgi.OSGiRepository;\

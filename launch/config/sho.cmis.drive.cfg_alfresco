@@ -1,0 +1,5 @@
+url = https://cmis.alfresco.com/alfresco/api/-default-/public/cmis/versions/1.1/browser
+binding = Browser
+user = admin
+password = admin
+mount.path = /Volumes/Shorty_JetDrive_1/mount

@@ -5,10 +5,8 @@ import java.nio.file.FileSystem;
 import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -25,9 +23,6 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventConstants;
-import org.osgi.service.event.EventHandler;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +42,6 @@ import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 import co.paralleluniverse.javafs.JavaFS;
 import sho.cmis.fs.CmisConfig;
-import sho.cmis.fs.CmisFS;
 
 @Component(name = CmisDrive.COMPONENT_NAME, immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = CmisDriveCfg.class)
@@ -80,10 +74,13 @@ public class CmisDrive
 	@Reference
 	SessionFactory sessionFactory;
 
+	@Reference
+	FileSystemProvider fsp;
+
 	Session cmisSession;
 
 	@Activate
-	public void activate(final CmisDriveCfg config)
+	public void activate(final CmisDriveCfg config) throws Exception
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
 
@@ -128,33 +125,34 @@ public class CmisDrive
 		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
 
 		// we need to wait for the CMIS Filesystem Bundle to be started
-		Dictionary<String, Object> ht = new Hashtable<String, Object>();
-		ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
-		bc.registerService(EventHandler.class.getName(), new EventHandler()
-		{
-			@Override
-			public void handleEvent(Event event)
-			{
-				System.out.println("handleEvent: " + event);
-				if (event.containsProperty("bundle.symbolicName"))
-				{
-					if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
-					{
-						try
-						{
-							javafs();
-							// TODO: Handle Nativity over own OSGi Bundle
-							// nativity();
-						}
-						catch (Exception e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-		}, ht);
+		// Dictionary<String, Object> ht = new Hashtable<String, Object>();
+		// ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
+		// bc.registerService(EventHandler.class.getName(), new EventHandler()
+		// {
+		// @Override
+		// public void handleEvent(Event event)
+		// {
+		// System.out.println("handleEvent: " + event);
+		// if (event.containsProperty("bundle.symbolicName"))
+		// {
+		// if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
+		// {
+		// try
+		// {
+		// javafs();
+		// // TODO: Handle Nativity over own OSGi Bundle
+		// // nativity();
+		// }
+		// catch (Exception e)
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// }
+		// }, ht);
+		javafs();
 		LOG.debug("Activated component: {}", COMPONENT_NAME);
 	}
 
@@ -163,7 +161,8 @@ public class CmisDrive
 		Map<String, Object> fsConfig = new HashMap<>();
 		fsConfig.put("CmisSession", cmisSession);
 
-		FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), fsConfig);
+		FileSystem fs = fsp.newFileSystem(new URI(CMIS_URI), fsConfig);
+		// FileSystem fs = CmisFS.newFileSystem(new URI(CMIS_URI), fsConfig);
 		// FileSystem fs = Jimfs.newFileSystem();
 		LOG.info("FS separator: " + fs.getSeparator());
 

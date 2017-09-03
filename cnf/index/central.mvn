@@ -7,6 +7,8 @@ net.bytebuddy:byte-buddy:1.7.1
 net.bytebuddy:byte-buddy-agent:1.7.1
 org.objenesis:objenesis:2.6
 
+org.apache.chemistry.opencmis:chemistry-opencmis-osgi-client:1.1.0
+
 org.apache.felix:org.apache.felix.framework:5.4.0
 org.apache.felix:org.apache.felix.fileinstall:3.6.0
 org.apache.felix:org.apache.felix.gogo.shell:1.0.0

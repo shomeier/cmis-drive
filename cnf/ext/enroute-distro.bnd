@@ -35,6 +35,9 @@
 -runrequires.eqnx: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.log)'
 
+-runprovidedcapabilities: ${native_capability}
+
+-resolve.effective: active;skip:="osgi.service"
 
 -runsystempackages.eqnx:		javax.script
 -runsystemcapabilities.dflt: 	${native_capability}
@@ -48,4 +51,4 @@ debug-bundles: \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)', \
 	osgi.identity;filter:='(osgi.identity=osgi.enroute.base.debug.provider)'
 
-junit: osgi.enroute.junit.wrapper;version=latest;repo="Distro"
+# junit: osgi.enroute.junit.wrapper;version=latest;repo="Distro"
