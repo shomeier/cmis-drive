@@ -1,7 +1,9 @@
 package sho.cmis.fs.internal;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
+import java.nio.channels.Channels;
 import java.nio.channels.SeekableByteChannel;
 import java.nio.file.AccessMode;
 import java.nio.file.CopyOption;
@@ -12,11 +14,13 @@ import java.nio.file.FileSystem;
 import java.nio.file.LinkOption;
 import java.nio.file.OpenOption;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.FileAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -123,7 +127,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public SeekableByteChannel newByteChannel(Path path, Set<? extends OpenOption> options, FileAttribute<?>... attrs)
 		throws IOException
 	{
-		System.out.println("IN FSP newByteChannel with path: " + path);
+		System.out.println("---------------------> IN FSP newByteChannel with path: " + path);
 		if (path instanceof CmisPath)
 			System.out.println("IN FSP IS CMISPAth");
 		else
@@ -143,6 +147,30 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		}
 
 		return ( (CmisFileSystem) path.getFileSystem() ).getCmisCache().getContent((CmisPath) path);
+	}
+
+	@Override
+	public OutputStream newOutputStream(Path path, OpenOption... options) throws IOException
+	{
+		LOG.trace("---------------------> IN FSP newDirectoryStream!!!");
+		int len = options.length;
+		Set<OpenOption> opts = new HashSet<OpenOption>(len + 3);
+		if (len == 0)
+		{
+			opts.add(StandardOpenOption.CREATE);
+			opts.add(StandardOpenOption.TRUNCATE_EXISTING);
+		}
+		else
+		{
+			for (OpenOption opt : options)
+			{
+				if (opt == StandardOpenOption.READ)
+					throw new IllegalArgumentException("READ not allowed");
+				opts.add(opt);
+			}
+		}
+		opts.add(StandardOpenOption.WRITE);
+		return Channels.newOutputStream(newByteChannel(path, opts));
 	}
 
 	@Override
@@ -173,7 +201,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public void copy(Path source, Path target, CopyOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
-		LOG.trace("IN FSP delete!!!");
+		LOG.trace("IN FSP copy!!!");
 
 	}
 

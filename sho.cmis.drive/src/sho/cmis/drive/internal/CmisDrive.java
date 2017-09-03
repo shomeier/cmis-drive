@@ -69,7 +69,7 @@ public class CmisDrive
 	// private static final String CMIS_MOUNT_POINT_URI = "cmis:///Volumes/Shorty_JetDrive_1/tmp/drive_mountpoint";
 	private static final String CMIS_URI = "cmis:///";
 
-	private static final boolean READONLY = true;
+	private static final boolean READONLY = false;
 
 	@Reference
 	SessionFactory sessionFactory;

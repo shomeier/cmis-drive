@@ -68,7 +68,7 @@ public class CmisFileSystem extends FileSystem
 	{
 		// TODO Auto-generated method stub
 		LOG.trace("IN FS isOpen!!!");
-		return false;
+		return true;
 	}
 
 	@Override

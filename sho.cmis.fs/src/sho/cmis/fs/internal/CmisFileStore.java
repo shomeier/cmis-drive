@@ -12,6 +12,8 @@ public class CmisFileStore extends FileStore
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisFileStore.class.getName());
 
+	private static final long SPACE = 10000000000000l;
+
 	@Override
 	public String name()
 	{
@@ -41,7 +43,7 @@ public class CmisFileStore extends FileStore
 	{
 		// TODO Auto-generated method stub
 		LOG.trace("IN FileStore getTotalSpace");
-		return 0;
+		return SPACE;
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class CmisFileStore extends FileStore
 	{
 		// TODO Auto-generated method stub
 		LOG.trace("IN FileStore getUsableSpace");
-		return 0;
+		return SPACE;
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class CmisFileStore extends FileStore
 	{
 		// TODO Auto-generated method stub
 		LOG.trace("IN FileStore getUnallocatedSpace");
-		return 0;
+		return SPACE;
 	}
 
 	@Override
