@@ -1,7 +1,6 @@
 #
 # LAUNCH SPECFICATION
 #
-
 -include: ~bnd.bnd
 
 #	org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client;version='[1.1.0,1.1.1)',\
@@ -24,8 +23,6 @@
 	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
 	org.apache.felix.log;version='[1.0.1,1.0.2)',\
 	org.apache.felix.metatype;version='[1.1.2,1.1.3)',\
-	org.apache.felix.scr;version='[2.0.10,2.0.11)',\
-	org.eclipse.osgi.services;version='[3.6.0,3.6.1)',\
 	org.objectweb.asm;version='[5.2.0,5.2.1)',\
 	sho.cmis.fs;version=snapshot,\
 	stax2-api;version='[4.0.0,4.0.1)',\
@@ -37,7 +34,12 @@
 	org.apache.aries.util;version='[1.1.1,1.1.2)',\
 	org.objectweb.asm.commons;version='[5.2.0,5.2.1)',\
 	org.objectweb.asm.tree;version='[5.2.0,5.2.1)',\
-	osgi.promise;version='[6.0.0,6.0.1)',\
 	sho.cmis.drive.nativity.consumer;version=snapshot,\
 	sho.nativity.provider;version=snapshot,\
-	org.apache.felix.configadmin;version='[1.8.8,1.8.9)'
+	org.apache.felix.configadmin;version='[1.8.8,1.8.9)',\
+	com.github.jnr.constants;version='[0.9.9,0.9.10)',\
+	jnr.x86asm;version='[1.0.2,1.0.3)',\
+	com.github.jnr.jffi;version='[1.2.11,1.2.12)',\
+	com.github.jnr.jffi.native;version='[1.2.16,1.2.17)',\
+	org.apache.felix.scr;version='[2.0.2,2.0.3)'
+#	com.github.jnr.ffi;version='[2.1.6,2.1.7)',\

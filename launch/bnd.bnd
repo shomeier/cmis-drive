@@ -8,7 +8,8 @@
 	felix.fileinstall.poll=100,\
 	felix.fileinstall.log.level=3,\
 	felix.fileinstall.dir=./config,\
-	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns
+	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns,\
+	org.osgi.framework.bootdelegation='sun.*,com.sun.*,jnr.ffi.provider.converters.*'
 
 -runtrace: true
 
@@ -29,6 +30,7 @@
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly.dynamic.bundle)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.drive.nativity.consumer)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
+	osgi.identity;filter:='(osgi.identity=com.github.jnr.jffi.native)',\
 	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)'
 
 -runee: JavaSE-1.7

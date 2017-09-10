@@ -175,7 +175,7 @@ public class CmisDrive
 		options.put("volicon", OVERLAY_CMIS_ICON);
 
 		LOG.info("Mounting FileSystem ...");
-		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, false, options);
+		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, true, options);
 		LOG.info("... mounted FileSystem!");
 	}
 

@@ -20,21 +20,40 @@ Bundle-SymbolicName: javafs
 src: src/main/java
 testsrc:  src/test/java
 
--includeresource: @jffi-1.2.15-native.jar,
+#-includeresource: @jffi-1.2.15-native.jar,
+
+Fragment-Host: com.github.jnr.jffi
 
 Private-Package: \
-	co.paralleluniverse.filesystem,\
-	co.paralleluniverse.fuse,\
-	com.kenai.jffi.internal,\
-	jnr.ffi.provider.jffi.platform.x86_64.darwin,\
-	jnr.ffi.util.ref.internal
+	co.paralleluniverse.filesystem
+#	jnr.ffi.provider.jffi
+#	com.kenai.jffi.internal,\
+#	jnr.ffi.provider.jffi.platform.x86_64.darwin,\
+#	jnr.ffi.util.ref.internal
 Export-Package: \
+	co.paralleluniverse.fuse,\
 	co.paralleluniverse.javafs,\
-	jnr.ffi.provider.jffi;-split-package:=merge-last
+	jnr.ffi,\
+	jnr.ffi.annotations,\
+	jnr.ffi.byref,\
+	jnr.ffi.mapper,\
+	jnr.ffi.provider,\
+	jnr.ffi.provider.converters,\
+	jnr.ffi.provider.jffi;-split-package:=merge-first,\
+	jnr.ffi.provider.jffi.platform.*,\
+	jnr.ffi.types,\
+	jnr.ffi.util,\
+	jnr.ffi.util.ref,\
+	jnr.ffi.util.ref.internal
+#	jnr.ffi.provider.jffi;-split-package:=merge-last
 Import-Package: \
-	org.objectweb.asm, \
-	jnr.ffi.provider.jffi;-split-package:=merge-last
+	*
+#	jnr.ffi.provider.converters
+#	jnr.ffi.mapper,\
+#	org.objectweb.asm, \
+#	jnr.ffi.provider.jffi;-split-package:=merge-last,\
 
-Conditional-Package: \
-	com.kenai.jffi.*, \
-	jnr.*
+
+#Conditional-Package: \
+#	com.kenai.jffi.*, \
+#	jnr.*

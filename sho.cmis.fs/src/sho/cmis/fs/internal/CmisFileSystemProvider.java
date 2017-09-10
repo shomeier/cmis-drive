@@ -257,6 +257,10 @@ public class CmisFileSystemProvider extends FileSystemProvider
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
 		// TODO Auto-generated method stub
+		if (path instanceof CmisPath)
+			System.out.println("INSTANCE OF CMIS PATH");
+		else
+			System.out.println("NOT INSTANCE OF CMIS PATH");
 		LOG.trace("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
 		LOG.trace("222 N FSP readAttributes1 with path: " + path);
 		return (A) new CmisBasicFileAttributes((CmisPath) path);
