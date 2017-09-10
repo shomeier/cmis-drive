@@ -35,7 +35,9 @@
 
 -runee: JavaSE-1.7
 
--runblacklist: osgi.identity;filter:='(osgi.identity=org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client)'
+-runblacklist: \
+	osgi.identity;filter:='(osgi.identity=org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client)',\
+	osgi.identity;filter:='(osgi.identity=com.github.jnr.ffi)'
 
 # Prevent from release by setting releaserepo to nothing
 -releaserepo:
