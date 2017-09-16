@@ -14,6 +14,7 @@ org.apache.felix:org.apache.felix.fileinstall:3.6.0
 org.apache.felix:org.apache.felix.gogo.shell:1.0.0
 org.apache.felix:org.apache.felix.gogo.command:1.0.0
 org.apache.felix:org.apache.felix.gogo.runtime:1.0.0
+org.apache.felix:org.apache.felix.eventadmin:1.4.10
 org.ops4j.pax.logging:pax-logging-api:1.10.0
 org.ops4j.pax.logging:pax-logging-service:1.10.0
 com.fasterxml.jackson.core:jackson-annotations:2.8.1

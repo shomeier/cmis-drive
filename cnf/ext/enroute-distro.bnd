@@ -52,3 +52,22 @@ debug-bundles: \
 	osgi.identity;filter:='(osgi.identity=osgi.enroute.base.debug.provider)'
 
 # junit: osgi.enroute.junit.wrapper;version=latest;repo="Distro"
+
+
+#
+# Augments for the Repository Indexer
+#
+
+# see here: https://groups.google.com/forum/#!topic/bndtools-users/9xniAf4KLoE
+-augment.fe_ev: \
+	org.apache.felix.eventadmin; \
+		capability:="  osgi.service;objectClass=org.osgi.service.event.EventAdmin;effective:=active, \
+					   osgi.implementation;osgi.implementation=osgi.event", \
+		requirement:= "osgi.extender;filter:='(osgi.extender=osgi.component)'"
+#org.apache.felix.eventadmin:			cap=osgi.service;objectClass=org.osgi.service.event.EventAdmin;effective:=active
+#org.apache.felix.http.bundle: 		cap=osgi.enroute.whiteboard;osgi.enroute.whiteboard=osgi.enroute.servlet;version:Version=1.1.0;effective:=active, \
+#	cap=osgi.service;objectClass=org.osgi.service.http.HttpService;effective:=active
+#org.knopflerfish.bundle.useradmin: 	cap=osgi.service;objectClass=org.osgi.service.useradmin.UserAdmin;effective:=active
+#org.eclipse.equinox.coordinator: 	cap=osgi.service;objectClass=org.osgi.service.coordinator.Coordinator;effective:=active
+#org.apache.felix.scr:				cap=osgi.extender;osgi.extender=osgi.component;;version:Version=1.2.1;effective:=active
+

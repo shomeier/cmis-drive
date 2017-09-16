@@ -43,4 +43,19 @@
 	com.github.jnr.jffi.native;version='[1.2.16,1.2.17)',\
 	com.google.guava;version='[16.0.0,16.0.1)',\
 	com.google.jimfs;version='[1.0.0,1.0.1)',\
-	org.apache.felix.scr;version='[2.0.2,2.0.3)'
+	org.apache.felix.scr;version='[2.0.2,2.0.3)',\
+	json;version='[20160212.0.0,20160212.0.1)',\
+	org.apache.commons.fileupload;version='[1.3.2,1.3.3)',\
+	org.apache.commons.io;version='[2.5.0,2.5.1)',\
+	org.apache.felix.http.api;version='[3.0.0,3.0.1)',\
+	org.apache.felix.http.servlet-api;version='[1.1.2,1.1.3)',\
+	org.apache.felix.webconsole;version='[4.2.16,4.2.17)',\
+	org.eclipse.equinox.http.servlet;version='[1.4.0,1.4.1)',\
+	org.osgi.compendium;version='[4.1.0,4.1.1)',\
+	osgi.enroute.base.debug.provider;version='[2.0.0,2.0.1)',\
+	osgi.enroute.bostock.d3.webresource;version='[3.5.6,3.5.7)',\
+	osgi.enroute.web.simple.provider;version='[2.0.0,2.0.1)',\
+	osgi.enroute.webconsole.xray.provider;version='[2.0.0,2.0.1)',\
+	org.apache.felix.eventadmin;version='[1.4.10,1.4.11)'
+-runee: JavaSE-1.8
+-runfw: org.apache.felix.framework;version='[5.4.0,5.4.0]'

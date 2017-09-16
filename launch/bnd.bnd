@@ -8,6 +8,7 @@
 	felix.fileinstall.poll=100,\
 	felix.fileinstall.log.level=3,\
 	felix.fileinstall.dir=./config,\
+	org.osgi.service.http.port=8082,\
 	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns,\
 	org.osgi.framework.bootdelegation='sun.*,com.sun.*,jnr.ffi.provider.converters.*'
 
@@ -15,8 +16,8 @@
 
 -runsystempackages.objenesis: sun.misc
 
-#	${debug-bundles}
 -runrequires.shared: \
+	${debug-bundles}, \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.configadmin)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
@@ -31,13 +32,16 @@
 	osgi.identity;filter:='(osgi.identity=sho.cmis.drive.nativity.consumer)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
 	osgi.identity;filter:='(osgi.identity=com.github.jnr.jffi.native)',\
-	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)'
+	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)',\
+	osgi.identity;filter:='(osgi.identity=com.google.jimfs)'
 
 -runee: JavaSE-1.7
 
 -runblacklist: \
 	osgi.identity;filter:='(osgi.identity=org.apache.chemistry.opencmis.chemistry-opencmis-osgi-client)',\
-	osgi.identity;filter:='(osgi.identity=com.github.jnr.ffi)'
+	osgi.identity;filter:='(osgi.identity=com.github.jnr.ffi)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
+	osgi.identity;filter:='(osgi.identity=org.osgi.service.event)'
 
 # Prevent from release by setting releaserepo to nothing
 -releaserepo:
