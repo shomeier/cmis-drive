@@ -253,6 +253,7 @@ public class CmisFileSystemProvider extends FileSystemProvider
 		return null;
 	}
 
+	// for a copy/move javafs expects a NoSuchFileException here ...
 	@Override
 	public <A extends BasicFileAttributes> A readAttributes(Path path, Class<A> type, LinkOption... options) throws IOException
 	{
@@ -261,7 +262,8 @@ public class CmisFileSystemProvider extends FileSystemProvider
 			System.out.println("INSTANCE OF CMIS PATH");
 		else
 			System.out.println("NOT INSTANCE OF CMIS PATH");
-		LOG.trace("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
+		// LOG.trace("IN FSP readAttributes1 with path: " + ( (CmisPath) path ).getName());
+		// LOG.trace("IN FSP readAttributes1 with path: " + path.getName(0));
 		LOG.trace("222 N FSP readAttributes1 with path: " + path);
 		return (A) new CmisBasicFileAttributes((CmisPath) path);
 		// return Files.readAttributes(path, type, options);

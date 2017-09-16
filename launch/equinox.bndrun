@@ -41,6 +41,6 @@
 	jnr.x86asm;version='[1.0.2,1.0.3)',\
 	com.github.jnr.jffi;version='[1.2.11,1.2.12)',\
 	com.github.jnr.jffi.native;version='[1.2.16,1.2.17)',\
-	org.apache.felix.scr;version='[2.0.10,2.0.11)',\
-	org.eclipse.osgi.services;version='[3.6.0,3.6.1)',\
-	osgi.promise;version='[6.0.0,6.0.1)'
+	com.google.guava;version='[16.0.0,16.0.1)',\
+	com.google.jimfs;version='[1.0.0,1.0.1)',\
+	org.apache.felix.scr;version='[2.0.2,2.0.3)'
