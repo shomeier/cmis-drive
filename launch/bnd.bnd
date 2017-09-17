@@ -2,13 +2,16 @@
 #-nojunit: true
 #-nojunitosgi: true
 
+http.port: 8082
+
 -runproperties.shared: \
 	logbackConfigFile=config/logback.xml,\
 	felix.fileinstall.noInitialDelay=true,\
 	felix.fileinstall.poll=100,\
 	felix.fileinstall.log.level=3,\
 	felix.fileinstall.dir=./config,\
-	org.osgi.service.http.port=8082,\
+	org.osgi.service.http.port=${http.port},\
+	jetty.port=${http.port},\
 	icon=${workspace}/sho.cmis.drive/img/cmis-wb-icon.png.icns,\
 	org.osgi.framework.bootdelegation='sun.*,com.sun.*,jnr.ffi.provider.converters.*'
 
