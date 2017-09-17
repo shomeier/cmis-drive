@@ -34,7 +34,7 @@ org.slf4j:slf4j-api:1.7.25
 # Google Stuff
 com.google.jimfs:jimfs:1.1
 com.google.truth:truth:0.23
-com.google.guava:guava:19.0
+com.google.guava:guava:18.0
 
 org.ow2.asm:asm:5.2
 org.ow2.asm:asm-util:5.2

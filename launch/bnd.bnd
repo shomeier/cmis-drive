@@ -16,8 +16,8 @@
 
 -runsystempackages.objenesis: sun.misc
 
+#	${debug-bundles}
 -runrequires.shared: \
-	${debug-bundles}, \
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.configadmin)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
