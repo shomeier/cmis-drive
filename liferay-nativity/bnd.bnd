@@ -1,7 +1,7 @@
 -buildpath: \
 	slf4j.api, \
-	com.fasterxml.jackson.core.jackson-core, \
-	com.fasterxml.jackson.core.jackson-databind
+	com.fasterxml.jackson.core.jackson-core;version=latest, \
+	com.fasterxml.jackson.core.jackson-databind;version=latest
 
 Bundle-Version: 1.0.6
 Bundle-SymbolicName: liferay-nativity
