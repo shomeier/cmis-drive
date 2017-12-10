@@ -170,7 +170,7 @@ public class CmisSession implements org.apache.chemistry.opencmis.client.api.Ses
 	@Override
 	public ObjectType getTypeDefinition(String typeId)
 	{
-		return session.getTypeDefinition(typeId, true);
+		return session.getTypeDefinition(typeId);
 	}
 
 	@Override
