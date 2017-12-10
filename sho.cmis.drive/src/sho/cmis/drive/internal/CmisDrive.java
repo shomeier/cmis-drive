@@ -6,19 +6,14 @@ import java.nio.file.Paths;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
 
-import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.api.SessionFactory;
-import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -41,7 +36,6 @@ import com.liferay.nativity.modules.fileicon.FileIconControlCallback;
 import com.liferay.nativity.modules.fileicon.FileIconControlUtil;
 
 import co.paralleluniverse.javafs.JavaFS;
-import sho.cmis.fs.CmisConfig;
 
 @Component(name = CmisDrive.COMPONENT_NAME, immediate = true, configurationPolicy = ConfigurationPolicy.REQUIRE)
 @Designate(ocd = CmisDriveCfg.class)
@@ -72,11 +66,9 @@ public class CmisDrive
 	private static final boolean READONLY = false;
 
 	@Reference
-	SessionFactory sessionFactory;
-
-	@Reference
 	FileSystemProvider fsp;
 
+	@Reference
 	Session cmisSession;
 
 	@Activate
@@ -95,34 +87,34 @@ public class CmisDrive
 			LOG.info("FSP: " + fsr.getScheme());
 		}
 
-		Map<String, String> envConfig = new HashMap<>();
-		envConfig.put(CmisConfig.BINDING_TYPE, "browser");
-		envConfig.put(CmisConfig.BROWSER_URL, config.url());
-		envConfig.put(CmisConfig.USER, config.user());
-		envConfig.put(CmisConfig.PASSWORD, config.password());
-		if (config.repository_id() != null)
-			envConfig.put(CmisConfig.REPOSITORY_ID, config.repository_id());
-		envConfig.put(CmisConfig.CACHE_PATH_OMIT, "false");
-
-		OperationContext opCtx = new OperationContextImpl();
-		Set<String> filter = new HashSet<>();
-		filter.add("cmis:baseTypeId");
-		filter.add("cmis:objectId");
-		filter.add("cmis:objectTypeId");
-		filter.add("cmis:name");
-		filter.add("cmis:contentStreamLength");
-		filter.add("cmis:contentStreamFileName");
-		filter.add("cmis:versionLabel");
-		filter.add("cmis:versionSeriesId");
-		// opCtx.setFilter(filter);
-		opCtx.setIncludePathSegments(true);
-		if (config.repository_id() != null)
-			cmisSession = sessionFactory.createSession(envConfig);
-		else
-			cmisSession = sessionFactory.getRepositories(envConfig).get(0).createSession();
-		cmisSession.setDefaultContext(opCtx);
-		// register CMIS Session as OSGi Service
-		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
+		// Map<String, String> envConfig = new HashMap<>();
+		// envConfig.put(CmisConfig.BINDING_TYPE, "browser");
+		// envConfig.put(CmisConfig.BROWSER_URL, config.url());
+		// envConfig.put(CmisConfig.USER, config.user());
+		// envConfig.put(CmisConfig.PASSWORD, config.password());
+		// if (config.repository_id() != null)
+		// envConfig.put(CmisConfig.REPOSITORY_ID, config.repository_id());
+		// envConfig.put(CmisConfig.CACHE_PATH_OMIT, "false");
+		//
+		// OperationContext opCtx = new OperationContextImpl();
+		// Set<String> filter = new HashSet<>();
+		// filter.add("cmis:baseTypeId");
+		// filter.add("cmis:objectId");
+		// filter.add("cmis:objectTypeId");
+		// filter.add("cmis:name");
+		// filter.add("cmis:contentStreamLength");
+		// filter.add("cmis:contentStreamFileName");
+		// filter.add("cmis:versionLabel");
+		// filter.add("cmis:versionSeriesId");
+		// // opCtx.setFilter(filter);
+		// opCtx.setIncludePathSegments(true);
+		// if (config.repository_id() != null)
+		// cmisSession = sessionFactory.createSession(envConfig);
+		// else
+		// cmisSession = sessionFactory.getRepositories(envConfig).get(0).createSession();
+		// cmisSession.setDefaultContext(opCtx);
+		// // register CMIS Session as OSGi Service
+		// ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
 
 		// we need to wait for the CMIS Filesystem Bundle to be started
 		// Dictionary<String, Object> ht = new Hashtable<String, Object>();

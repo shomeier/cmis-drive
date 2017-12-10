@@ -1,0 +1,10 @@
+-buildpath: \
+	osgi.enroute.base.api; version=latest,\
+	de.apollon.cmis.client.chemistry.opencmis.wrap; version=latest
+
+-testpath: \
+	${junit}
+
+Bundle-Version: 0.1.0.${tstamp}
+
+Private-Package: sho.cmis.client.session.internal

@@ -43,6 +43,7 @@
 	io.netty.codec;version='[4.1.15,4.1.16)',\
 	io.netty.common;version='[4.1.15,4.1.16)',\
 	io.netty.resolver;version='[4.1.15,4.1.16)',\
-	io.netty.transport;version='[4.1.15,4.1.16)'
--runee: JavaSE-1.7
+	io.netty.transport;version='[4.1.15,4.1.16)',\
+	sho.cmis.client.session.provider;version=snapshot
+-runee: JavaSE-1.8
 -runfw: org.apache.felix.framework;version='[5.4.0,5.4.0]'
