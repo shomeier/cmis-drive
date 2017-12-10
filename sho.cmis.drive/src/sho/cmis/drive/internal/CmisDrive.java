@@ -17,6 +17,8 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
@@ -75,6 +77,14 @@ public class CmisDrive
 	public void activate(final CmisDriveCfg config) throws Exception
 	{
 		LOG.info("Activating component: {} ...", COMPONENT_NAME);
+		modified(config);
+		LOG.debug("Activated component: {} ...", COMPONENT_NAME);
+	}
+
+	@Modified
+	public void modified(final CmisDriveCfg config) throws Exception
+	{
+		LOG.info("Modifying component: {} ...", COMPONENT_NAME);
 
 		ServiceLoader<FileSystemProvider> load = java.util.ServiceLoader.load(FileSystemProvider.class);
 		for (FileSystemProvider fileSystemProvider : load)
@@ -86,69 +96,19 @@ public class CmisDrive
 		{
 			LOG.info("FSP: " + fsr.getScheme());
 		}
-
-		// Map<String, String> envConfig = new HashMap<>();
-		// envConfig.put(CmisConfig.BINDING_TYPE, "browser");
-		// envConfig.put(CmisConfig.BROWSER_URL, config.url());
-		// envConfig.put(CmisConfig.USER, config.user());
-		// envConfig.put(CmisConfig.PASSWORD, config.password());
-		// if (config.repository_id() != null)
-		// envConfig.put(CmisConfig.REPOSITORY_ID, config.repository_id());
-		// envConfig.put(CmisConfig.CACHE_PATH_OMIT, "false");
-		//
-		// OperationContext opCtx = new OperationContextImpl();
-		// Set<String> filter = new HashSet<>();
-		// filter.add("cmis:baseTypeId");
-		// filter.add("cmis:objectId");
-		// filter.add("cmis:objectTypeId");
-		// filter.add("cmis:name");
-		// filter.add("cmis:contentStreamLength");
-		// filter.add("cmis:contentStreamFileName");
-		// filter.add("cmis:versionLabel");
-		// filter.add("cmis:versionSeriesId");
-		// // opCtx.setFilter(filter);
-		// opCtx.setIncludePathSegments(true);
-		// if (config.repository_id() != null)
-		// cmisSession = sessionFactory.createSession(envConfig);
-		// else
-		// cmisSession = sessionFactory.getRepositories(envConfig).get(0).createSession();
-		// cmisSession.setDefaultContext(opCtx);
-		// // register CMIS Session as OSGi Service
-		// ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, cmisSession, null);
-
-		// we need to wait for the CMIS Filesystem Bundle to be started
-		// Dictionary<String, Object> ht = new Hashtable<String, Object>();
-		// ht.put(EventConstants.EVENT_TOPIC, "org/osgi/framework/BundleEvent/STARTED");
-		// bc.registerService(EventHandler.class.getName(), new EventHandler()
-		// {
-		// @Override
-		// public void handleEvent(Event event)
-		// {
-		// System.out.println("handleEvent: " + event);
-		// if (event.containsProperty("bundle.symbolicName"))
-		// {
-		// if (event.getProperty("bundle.symbolicName").equals("sho.cmis.fs"))
-		// {
-		// try
-		// {
-		// javafs();
-		// // TODO: Handle Nativity over own OSGi Bundle
-		// // nativity();
-		// }
-		// catch (Exception e)
-		// {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// }
-		// }, ht);
-		javafs();
-		LOG.debug("Activated component: {}", COMPONENT_NAME);
+		javafs(config.mount_path());
+		LOG.debug("Modified component: {}", COMPONENT_NAME);
 	}
 
-	private void javafs() throws Exception
+	@Deactivate
+	public void deactivate(final CmisDriveCfg config) throws Exception
+	{
+		LOG.debug("Deactiving component: {} ...", COMPONENT_NAME);
+		JavaFS.unmount(Paths.get(config.mount_path()));
+		LOG.debug("Deactivated component: {} ...", COMPONENT_NAME);
+	}
+
+	private void javafs(String mountpath) throws Exception
 	{
 		Map<String, Object> fsConfig = new HashMap<>();
 		fsConfig.put("CmisSession", cmisSession);
@@ -167,7 +127,7 @@ public class CmisDrive
 		options.put("volicon", OVERLAY_CMIS_ICON);
 
 		LOG.info("Mounting FileSystem ...");
-		JavaFS.mount(fs, Paths.get(MOUNT_POINT), READONLY, true, options);
+		JavaFS.mount(fs, Paths.get(mountpath), READONLY, true, options);
 		LOG.info("... mounted FileSystem!");
 	}
 
