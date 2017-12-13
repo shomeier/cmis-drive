@@ -65,6 +65,7 @@ test-cases: 			${classes;NAMED;*Test}
 -plugin.8.EclipseOxygen: \
 	aQute.bnd.repository.p2.provider.P2Repository; \
     name = "EclipseOxygen"; \
+    location = ${user.home}/.bnd/cache/p2-EclipseOxygen; \
     url = "http://download.eclipse.org/releases/oxygen/"
 
 
