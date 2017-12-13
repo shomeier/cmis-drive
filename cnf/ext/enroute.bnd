@@ -62,6 +62,7 @@ test-cases: 			${classes;NAMED;*Test}
 #        poll.time=-1; \
 #        cache=${build}/cache/stable/EclipseOrbit
 
+# TODO: Check if this is really a good idea to move the p2-cache to user.home/.bnd/cache...
 -plugin.8.EclipseOxygen: \
 	aQute.bnd.repository.p2.provider.P2Repository; \
     name = "EclipseOxygen"; \
