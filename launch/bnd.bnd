@@ -47,5 +47,10 @@ http.port: 8082
 	osgi.identity;filter:='(osgi.identity=org.eclipse.equinox.event)',\
 	osgi.identity;filter:='(osgi.identity=org.osgi.service.event)'
 
+# this project has no jar
+-nobundles: true
+-nojunit: true
+-nojunitosgi: true
+
 # Prevent from release by setting releaserepo to nothing
 -releaserepo:
