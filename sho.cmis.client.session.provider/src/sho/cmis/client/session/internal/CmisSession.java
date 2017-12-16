@@ -87,11 +87,16 @@ public class CmisSession implements org.apache.chemistry.opencmis.client.api.Ses
 		filter.add("cmis:versionSeriesId");
 		// opCtx.setFilter(filter);
 		opCtx.setIncludePathSegments(true);
+
 		if (config.repository_id() != null)
 			session = sessionFactory.createSession(envConfig);
 		else
 			session = sessionFactory.getRepositories(envConfig).get(0).createSession();
 		session.setDefaultContext(opCtx);
+
+		// inject our session into object factory so that all calls come in here ...
+		session.getObjectFactory().initialize(this, envConfig);
+
 		// register CMIS Session as OSGi Service
 		// ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, session, null);
 
