@@ -8,9 +8,6 @@ import java.util.Set;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.runtime.OperationContextImpl;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
@@ -21,31 +18,21 @@ public class CmisSessionFactory implements org.apache.chemistry.opencmis.client.
 {
 	private static final Logger LOG = LoggerFactory.getLogger(CmisSessionFactory.class.getName());
 
-	private final BundleContext bc = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-
 	static final String COMPONENT_NAME = "sho.cmis.client.session.factory";
-
-	// private Session session;
 
 	@Activate
 	public void activate(Map<String, ?> properties) throws Exception
 	{
-		LOG.info("Activating component: {} ...", COMPONENT_NAME);
+		LOG.debug("Activated component: {}", COMPONENT_NAME);
+	}
 
-		for (String key : properties.keySet())
-		{
-			System.out.println("Key: " + key + ", Value: " + properties.get(key));
-		}
-		// Map<String, String> envConfig = new HashMap<>();
-		// envConfig.put(SessionParameter.BINDING_TYPE, "browser");
-		// envConfig.put(SessionParameter.BROWSER_URL, config.url());
-		// envConfig.put(SessionParameter.USER, config.user());
-		// envConfig.put(SessionParameter.PASSWORD, config.password());
-		// if (config.repository_id() != null)
-		// envConfig.put(SessionParameter.REPOSITORY_ID, config.repository_id());
-		// envConfig.put(SessionParameter.CACHE_PATH_OMIT, "false");
+	@Override
+	public Session createSession(Map<String, String> parameters)
+	{
+		CmisSessionWrapper session = new CmisSessionWrapper(parameters, null, null, null, null);
+		session.connect();
 
-		OperationContext opCtx = new OperationContextImpl();
+		OperationContext opCtx = session.getDefaultContext();
 		Set<String> filter = new HashSet<>();
 		filter.add("cmis:baseTypeId");
 		filter.add("cmis:objectId");
@@ -55,31 +42,9 @@ public class CmisSessionFactory implements org.apache.chemistry.opencmis.client.
 		filter.add("cmis:contentStreamFileName");
 		filter.add("cmis:versionLabel");
 		filter.add("cmis:versionSeriesId");
-		// opCtx.setFilter(filter);
+		opCtx.setFilter(filter);
 		opCtx.setIncludePathSegments(true);
-
-		// if (config.repository_id() != null)
-		// session = sessionFactory.createSession(envConfig);
-		// else
-		// session = sessionFactory.getRepositories(envConfig).get(0).createSession();
-		// session.setDefaultContext(opCtx);
-		//
-		// // inject our session into object factory so that all calls come in here ...
-		// session.getObjectFactory().initialize(this, envConfig);
-
-		// CmisSession session = new CmisSession(envConfig, null, null, null, null);
-
-		// register CMIS Session as OSGi Service
-		// ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, session, null);
-
-		LOG.debug("Activated component: {}", COMPONENT_NAME);
-	}
-
-	@Override
-	public Session createSession(Map<String, String> parameters)
-	{
-		SessionWrapper session = new SessionWrapper(parameters, null, null, null, null);
-		session.connect();
+		session.setDefaultContext(opCtx);
 
 		return session;
 	}
