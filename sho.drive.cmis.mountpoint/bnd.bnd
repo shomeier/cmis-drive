@@ -1,0 +1,12 @@
+-buildpath: \
+	osgi.enroute.base.api; version=latest,\
+	sho.drive.api; version=latest
+
+-testpath: \
+	${junit}
+
+javac.source: 1.7
+javac.target: 1.7
+
+Bundle-Version: 0.1.0.${tstamp}
+Private-Package: sho.drive.cmis.mountpoint.internal
