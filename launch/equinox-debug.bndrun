@@ -61,4 +61,4 @@
 	io.netty.common;version='[4.1.15,4.1.16)',\
 	io.netty.resolver;version='[4.1.15,4.1.16)',\
 	io.netty.transport;version='[4.1.15,4.1.16)',\
-	sho.cmis.client.session.provider;version=snapshot
+	sho.cmis.client.session.factory.provider;version=snapshot

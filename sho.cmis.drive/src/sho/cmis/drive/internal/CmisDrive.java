@@ -12,8 +12,11 @@ import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -70,8 +73,9 @@ public class CmisDrive
 	@Reference
 	FileSystemProvider fsp;
 
-	@Reference
-	Session cmisSession;
+	// we want to use our session factory, not the OpenCMIS one
+	@Reference(target = "(component.name=sho.cmis.client.session.factory)")
+	SessionFactory sessionFactory;
 
 	@Activate
 	public void activate(final CmisDriveCfg config) throws Exception
@@ -96,7 +100,22 @@ public class CmisDrive
 		{
 			LOG.info("FSP: " + fsr.getScheme());
 		}
-		javafs(config.mount_path());
+
+		Map<String, String> envConfig = new HashMap<>();
+		envConfig.put(SessionParameter.BINDING_TYPE, "browser");
+		envConfig.put(SessionParameter.BROWSER_URL, config.url());
+		envConfig.put(SessionParameter.USER, config.user());
+		envConfig.put(SessionParameter.PASSWORD, config.password());
+		if (config.repository_id() != null)
+			envConfig.put(SessionParameter.REPOSITORY_ID, config.repository_id());
+		envConfig.put(SessionParameter.CACHE_PATH_OMIT, "false");
+
+		Session session = sessionFactory.createSession(envConfig);
+
+		// register CMIS Session as OSGi Service
+		ServiceRegistration<Session> serviceRegistration = bc.registerService(Session.class, session, null);
+
+		javafs(config.mount_path(), session);
 		LOG.debug("Modified component: {}", COMPONENT_NAME);
 	}
 
@@ -108,7 +127,7 @@ public class CmisDrive
 		LOG.debug("Deactivated component: {} ...", COMPONENT_NAME);
 	}
 
-	private void javafs(String mountpath) throws Exception
+	private void javafs(String mountpath, Session cmisSession) throws Exception
 	{
 		Map<String, Object> fsConfig = new HashMap<>();
 		fsConfig.put("CmisSession", cmisSession);

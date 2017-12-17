@@ -33,7 +33,7 @@ http.port: 8082
 	osgi.identity;filter:='(osgi.identity=org.apache.felix.fileinstall)',\
 	osgi.identity;filter:='(osgi.identity=org.apache.aries.spifly.dynamic.bundle)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.drive.nativity.consumer)',\
-	osgi.identity;filter:='(osgi.identity=sho.cmis.client.session.provider)',\
+	osgi.identity;filter:='(osgi.identity=sho.cmis.client.session.factory.provider)',\
 	osgi.identity;filter:='(osgi.identity=sho.cmis.fs)',\
 	osgi.identity;filter:='(osgi.identity=com.github.jnr.jffi.native)',\
 	osgi.identity;filter:='(osgi.identity=sho.nativity.provider)',\
